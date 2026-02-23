@@ -4,11 +4,11 @@ import { Router } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ServicioEstudiante } from '../../services/estudiante';
 
-import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatTableModule } from '@angular/material/table'; // <-- Nuevo: Módulo de tablas
 
 import { Observable, combineLatest } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -16,7 +16,15 @@ import { map, startWith } from 'rxjs/operators';
 @Component({
   selector: 'app-lista-estudiantes',
   standalone: true,
-  imports: [CommonModule, MatCardModule, MatButtonModule, ReactiveFormsModule, MatSnackBarModule, MatInputModule, MatFormFieldModule],
+  imports: [
+    CommonModule, 
+    MatButtonModule, 
+    ReactiveFormsModule, 
+    MatSnackBarModule, 
+    MatInputModule, 
+    MatFormFieldModule,
+    MatTableModule
+  ],
   templateUrl: './lista-estudiantes.html',
   styleUrls: ['./lista-estudiantes.scss']
 })
@@ -24,8 +32,9 @@ export class ComponenteListaEstudiantes implements OnInit {
   estudiantesFiltrados$!: Observable<any[]>;
   controlBuscador = new FormControl(''); 
 
+  columnasMostradas: string[] = ['nombre', 'telefono', 'colegio', 'curso', 'acciones'];
   constructor(
-    private servicioEstudiante: ServicioEstudiante, 
+    private servicioEstudiante: ServicioEstudiante,
     private enrutador: Router,
     private barraNotificaciones: MatSnackBar
   ) {}
