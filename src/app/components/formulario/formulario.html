@@ -1,0 +1,56 @@
+<form [formGroup]="estudianteForm" (ngSubmit)="registrarEstudiante()" style="display: flex; flex-direction: column; gap: 15px; max-width: 450px; margin: 40px auto; padding: 30px; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-radius: 8px;">
+  
+  <h2 style="text-align: center; font-family: Roboto, sans-serif; color: #005cbb; margin-bottom: 20px;">Registro de Estudiante</h2>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Nombre completo</mat-label>
+    <input matInput formControlName="nombreCompleto" placeholder="Ej. Carlos Mendoza">
+    @if (estudianteForm.get('nombreCompleto')?.hasError('required')) {
+      <mat-error>El nombre es obligatorio</mat-error>
+    }
+    @if (estudianteForm.get('nombreCompleto')?.hasError('minlength')) {
+      <mat-error>Debe tener al menos 3 caracteres</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Colegio de procedencia</mat-label>
+    <input matInput formControlName="colegio" placeholder="Ej. Nacional Florida" #inputColegio>
+    
+    <mat-hint align="end">{{inputColegio.value.length}} / 2 caracteres mín.</mat-hint>
+
+    @if (estudianteForm.get('colegio')?.hasError('required')) {
+      <mat-error>El colegio es obligatorio</mat-error>
+    }
+    @if (estudianteForm.get('colegio')?.hasError('minlength')) {
+      <mat-error>El nombre es muy corto (mínimo 2 letras)</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Curso / Grado actual</mat-label>
+    <mat-select formControlName="curso">
+      @for (curso of cursosDisponibles; track curso) {
+        <mat-option [value]="curso">{{ curso }}</mat-option>
+      }
+    </mat-select>
+    @if (estudianteForm.get('curso')?.hasError('required')) {
+      <mat-error>Debes seleccionar un curso</mat-error>
+    }
+  </mat-form-field>
+
+  <mat-form-field appearance="outline">
+    <mat-label>Correo de contacto</mat-label>
+    <input matInput formControlName="correo" type="email" placeholder="correo@ejemplo.com">
+    @if (estudianteForm.get('correo')?.hasError('required')) {
+      <mat-error>El correo es obligatorio</mat-error>
+    }
+    @if (estudianteForm.get('correo')?.hasError('email')) {
+      <mat-error>Ingresa un correo válido</mat-error>
+    }
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" type="submit" [disabled]="estudianteForm.invalid" style="padding: 24px 0; font-size: 16px; margin-top: 10px;">
+    Registrar Estudiante
+  </button>
+</form>
