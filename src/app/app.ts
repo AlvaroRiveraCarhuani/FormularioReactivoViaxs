@@ -1,13 +1,15 @@
 import { Component } from '@angular/core';
-import { FormularioComponent } from './components/formulario/formulario';
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [FormularioComponent], // Ya no importamos RouterOutlet
+  imports: [RouterOutlet, RouterLink, RouterLinkActive, MatToolbarModule, MatButtonModule],
   templateUrl: './app.html',
   styleUrls: ['./app.scss']
 })
-export class App {  // <-- Aquí está la corrección clave
+export class App {
   title = 'formulario-reactivo';
 }
