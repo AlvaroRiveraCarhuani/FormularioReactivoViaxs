@@ -1,12 +1,13 @@
-import { Component, signal } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component } from '@angular/core';
+import { FormularioComponent } from './components/formulario/formulario';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  standalone: true,
+  imports: [FormularioComponent], // Ya no importamos RouterOutlet
   templateUrl: './app.html',
-  styleUrl: './app.scss'
+  styleUrls: ['./app.scss']
 })
-export class App {
-  protected readonly title = signal('formulario-reactivo');
+export class App {  // <-- Aquí está la corrección clave
+  title = 'formulario-reactivo';
 }
