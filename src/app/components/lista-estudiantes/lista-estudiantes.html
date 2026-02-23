@@ -1,20 +1,25 @@
 <div style="display: flex; flex-direction: column; align-items: center; gap: 20px;">
   <h2>Lista de Estudiantes</h2>
 
-  @if ((estudiantes$ | async)?.length === 0) {
-    <p style="color: gray;">No hay estudiantes registrados. ¡Agrega el primero!</p>
-    <button mat-raised-button color="accent" (click)="irARegistro()">Ir a Agregar Estudiante</button>
+  <mat-form-field appearance="outline" style="width: 100%; max-width: 600px;">
+    <mat-label>Buscar estudiante por nombre o apellido...</mat-label>
+    <input matInput [formControl]="controlBuscador" placeholder="Ej. Alvaro">
+  </mat-form-field>
+
+  @if ((estudiantesFiltrados$ | async)?.length === 0) {
+    <p style="color: gray;">No se encontraron estudiantes.</p>
+    <button mat-raised-button color="accent" (click)="irAlRegistro()">Ir a Agregar Estudiante</button>
   } @else {
     <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; width: 100%; max-width: 900px;">
-      @for (est of estudiantes$ | async; track est.id) {
+      @for (est of estudiantesFiltrados$ | async; track est.id) {
         <mat-card appearance="outlined" style="width: 300px;">
           <mat-card-header>
             <mat-card-title>{{ est.nombres }} {{ est.apellidos }}</mat-card-title>
             <mat-card-subtitle>{{ est.curso }}</mat-card-subtitle>
           </mat-card-header>
           <mat-card-content style="margin-top: 15px;">
-            <p><strong>Colegio:</strong> {{ est.colegio }}</p>
-            <p><strong>Teléfono:</strong> {{ est.telefono }}</p>
+            <p><strong> Colegio:</strong> {{ est.colegio }}</p>
+            <p><strong> Teléfono:</strong> {{ est.telefono }}</p>
             <p><strong>Correo:</strong> {{ est.correo }}</p>
           </mat-card-content>
           <mat-card-actions style="justify-content: flex-end;">

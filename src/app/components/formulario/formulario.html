@@ -1,8 +1,8 @@
 <div style="display: flex; justify-content: center;">
-  <form [formGroup]="estudianteForm" (ngSubmit)="guardarEstudiante()" style="display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 500px; padding: 30px; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-radius: 8px;">
+  <form [formGroup]="formularioEstudiante" (ngSubmit)="guardarDatos()" style="display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 500px; padding: 30px; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-radius: 8px;">
     
     <h2 style="text-align: center; color: #005cbb;">
-      {{ estudianteAEditarId ? 'Editar Estudiante' : 'Registro de Estudiante' }}
+      {{ idEstudianteEnEdicion ? 'Editar Estudiante' : 'Registro de Estudiante' }}
     </h2>
 
     <div style="display: flex; gap: 15px; flex-wrap: wrap;">
@@ -42,11 +42,11 @@
     </mat-form-field>
 
     <div style="display: flex; gap: 10px;">
-      <button mat-raised-button color="primary" type="submit" [disabled]="estudianteForm.invalid" style="flex: 1;">
-        {{ estudianteAEditarId ? 'Actualizar Datos' : 'Registrar Estudiante' }}
+      <button mat-raised-button color="primary" type="submit" [disabled]="formularioEstudiante.invalid" style="flex: 1;">
+        {{ idEstudianteEnEdicion ? 'Actualizar Datos' : 'Registrar Estudiante' }}
       </button>
       
-      @if (estudianteAEditarId) {
+      @if (idEstudianteEnEdicion) {
         <button mat-button color="warn" type="button" (click)="cancelarEdicion()">Cancelar</button>
       }
     </div>

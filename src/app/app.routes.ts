@@ -1,9 +1,10 @@
 import { Routes } from '@angular/router';
-import { FormularioComponent } from './components/formulario/formulario';
-import { ListaEstudiantesComponent } from './components/lista-estudiantes/lista-estudiantes';
+import { ComponenteFormulario } from './components/formulario/formulario';
+import { ComponenteListaEstudiantes } from './components/lista-estudiantes/lista-estudiantes';
+import { guardiaCambiosSinGuardar } from './guards/cambios-sin-guardar';
 
-export const routes: Routes = [
-  { path: 'registro', component: FormularioComponent },
-  { path: 'lista', component: ListaEstudiantesComponent },
+export const rutas: Routes = [
+  { path: 'registro', component: ComponenteFormulario, canDeactivate: [guardiaCambiosSinGuardar] },
+  { path: 'lista', component: ComponenteListaEstudiantes },
   { path: '', redirectTo: '/registro', pathMatch: 'full' }
 ];

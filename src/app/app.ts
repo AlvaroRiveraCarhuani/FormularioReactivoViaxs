@@ -11,5 +11,5 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrls: ['./app.scss']
 })
 export class App {
-  title = 'formulario-reactivo';
+  titulo = 'sistema-estudiantes';
 }
