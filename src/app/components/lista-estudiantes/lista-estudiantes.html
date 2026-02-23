@@ -1,18 +1,26 @@
 <div style="display: flex; flex-direction: column; align-items: center; gap: 20px; padding: 20px;">
-  <h2>Lista Maestra de Estudiantes</h2>
+  
+  <div style="display: flex; justify-content: space-between; align-items: center; width: 100%; max-width: 1000px;">
+    <h2>Lista de Estudiantes</h2>
+    <button mat-raised-button color="primary" (click)="abrirFormulario()">
+      + Nuevo Estudiante
+    </button>
+  </div>
 
-  <mat-form-field appearance="outline" style="width: 100%; max-width: 800px;">
-    <mat-label> Buscar por nombre o apellido...</mat-label>
+  <mat-form-field appearance="outline" style="width: 100%; max-width: 1000px;">
+    <mat-label>🔍 Buscar por nombre o apellido...</mat-label>
     <input matInput [formControl]="controlBuscador" placeholder="Ej. Alvaro">
   </mat-form-field>
 
   @if ((estudiantesFiltrados$ | async)?.length === 0) {
-    <div style="text-align: center; margin-top: 20px;">
-      <p style="color: gray;">No se encontraron registros.</p>
-      <button mat-raised-button color="accent" (click)="irAlRegistro()">Registrar Nuevo Estudiante</button>
+    <div style="text-align: center; margin-top: 40px;">
+      <p style="color: gray;">No se encontraron registros en el sistema.</p>
+      <button mat-raised-button color="accent" (click)="abrirFormulario()">
+        Registrar Primer Estudiante
+      </button>
     </div>
   } @else {
-    <div class="contenedor-tabla mat-elevation-z8" style="width: 100%; max-width: 1000px; overflow-x: auto; border-radius: 8px;">
+    <div class="mat-elevation-z8" style="width: 100%; max-width: 1000px; overflow-x: auto; border-radius: 8px;">
       
       <table mat-table [dataSource]="(estudiantesFiltrados$ | async) || []" style="width: 100%;">
 
@@ -33,14 +41,22 @@
 
         <ng-container matColumnDef="curso">
           <th mat-header-cell *matHeaderCellDef> Curso </th>
-          <td mat-cell *matCellDef="let est"> {{ est.curso }} </td>
+          <td mat-cell *matCellDef="let est"> 
+            <span style="background: #f0f0f0; padding: 2px 8px; border-radius: 4px; font-size: 12px;">
+              {{ est.curso }}
+            </span>
+          </td>
         </ng-container>
 
         <ng-container matColumnDef="acciones">
           <th mat-header-cell *matHeaderCellDef style="text-align: center;"> Acciones </th>
           <td mat-cell *matCellDef="let est" style="text-align: center;">
-            <button mat-button color="primary" (click)="editar(est)">Editar</button>
-            <button mat-button color="warn" (click)="eliminar(est.id)">Eliminar</button>
+            <button mat-button color="primary" (click)="abrirFormulario(est)">
+              Editar
+            </button>
+            <button mat-button color="warn" (click)="eliminar(est.id)">
+              Eliminar
+            </button>
           </td>
         </ng-container>
 

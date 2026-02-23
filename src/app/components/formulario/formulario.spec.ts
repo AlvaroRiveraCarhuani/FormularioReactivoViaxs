@@ -1,23 +1,31 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ComponenteFormulario } from './formulario';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { Formulario } from './formulario';
-
-describe('Formulario', () => {
-  let component: Formulario;
-  let fixture: ComponentFixture<Formulario>;
+describe('ComponenteFormulario', () => {
+  let componente: ComponenteFormulario;
+  let fixture: ComponentFixture<ComponenteFormulario>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [Formulario]
+      imports: [
+        ComponenteFormulario,
+        NoopAnimationsModule 
+      ],
+      providers: [
+        { provide: MatDialogRef, useValue: {} },
+        { provide: MAT_DIALOG_DATA, useValue: {} }
+      ]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(Formulario);
-    component = fixture.componentInstance;
+    fixture = TestBed.createComponent(ComponenteFormulario);
+    componente = fixture.componentInstance;
     fixture.detectChanges();
   });
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
+  it('debe crearse correctamente el componente del formulario', () => {
+    expect(componente).toBeTruthy();
   });
 });

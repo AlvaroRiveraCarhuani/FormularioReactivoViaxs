@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router } from '@angular/router';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { ServicioEstudiante } from '../../services/estudiante';
+import { ComponenteFormulario } from '../formulario/formulario';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatTableModule } from '@angular/material/table'; // <-- Nuevo: Módulo de tablas
+import { MatTableModule } from '@angular/material/table';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
 import { Observable, combineLatest } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
@@ -18,12 +19,13 @@ import { map, startWith } from 'rxjs/operators';
   standalone: true,
   imports: [
     CommonModule, 
-    MatButtonModule, 
     ReactiveFormsModule, 
+    MatButtonModule, 
     MatSnackBarModule, 
     MatInputModule, 
     MatFormFieldModule,
-    MatTableModule
+    MatTableModule,
+    MatDialogModule
   ],
   templateUrl: './lista-estudiantes.html',
   styleUrls: ['./lista-estudiantes.scss']
@@ -31,12 +33,12 @@ import { map, startWith } from 'rxjs/operators';
 export class ComponenteListaEstudiantes implements OnInit {
   estudiantesFiltrados$!: Observable<any[]>;
   controlBuscador = new FormControl(''); 
-
   columnasMostradas: string[] = ['nombre', 'telefono', 'colegio', 'curso', 'acciones'];
+
   constructor(
     private servicioEstudiante: ServicioEstudiante,
-    private enrutador: Router,
-    private barraNotificaciones: MatSnackBar
+    private barraNotificaciones: MatSnackBar,
+    private dialogo: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -54,20 +56,33 @@ export class ComponenteListaEstudiantes implements OnInit {
     );
   }
 
-  editar(estudiante: any) {
-    this.servicioEstudiante.seleccionarParaEditar(estudiante);
-    this.enrutador.navigate(['/registro']);
+  abrirFormulario(estudiante?: any) {
+    const referenciaDialogo = this.dialogo.open(ComponenteFormulario, {
+      width: '500px',
+      data: estudiante
+    });
+
+    referenciaDialogo.afterClosed().subscribe(resultado => {
+      if (resultado) {
+        if (estudiante) {
+          this.servicioEstudiante.editar(estudiante.id, resultado);
+          this.mostrarNotificacion('✅ Estudiante actualizado');
+        } else {
+          this.servicioEstudiante.agregar(resultado);
+          this.mostrarNotificacion('🎉 Estudiante registrado');
+        }
+      }
+    });
   }
 
   eliminar(id: number) {
     if (confirm('¿Estás seguro de eliminar a este estudiante?')) {
       this.servicioEstudiante.eliminar(id);
-      this.barraNotificaciones.open('🗑️ Estudiante eliminado', 'Cerrar', { duration: 3000 });
+      this.mostrarNotificacion('🗑️ Estudiante eliminado');
     }
   }
 
-  irAlRegistro() {
-    this.servicioEstudiante.limpiarEdicion();
-    this.enrutador.navigate(['/registro']);
+  private mostrarNotificacion(mensaje: string) {
+    this.barraNotificaciones.open(mensaje, 'Cerrar', { duration: 3000 });
   }
 }

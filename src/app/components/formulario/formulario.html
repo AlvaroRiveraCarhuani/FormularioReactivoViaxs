@@ -1,16 +1,14 @@
-<div style="display: flex; justify-content: center;">
-  <form [formGroup]="formularioEstudiante" (ngSubmit)="guardarDatos()" style="display: flex; flex-direction: column; gap: 15px; width: 100%; max-width: 500px; padding: 30px; background: white; box-shadow: 0 4px 12px rgba(0,0,0,0.1); border-radius: 8px;">
-    
-    <h2 style="text-align: center; color: #005cbb;">
-      {{ idEstudianteEnEdicion ? 'Editar Estudiante' : 'Registro de Estudiante' }}
-    </h2>
+<h2 mat-dialog-title style="color: #005cbb; text-align: center;">
+  {{ datos ? 'Editar Estudiante' : 'Nuevo Estudiante' }}
+</h2>
 
-    <div style="display: flex; gap: 15px; flex-wrap: wrap;">
+<mat-dialog-content>
+  <form [formGroup]="formularioEstudiante" style="display: flex; flex-direction: column; gap: 10px; min-width: 400px; padding-top: 10px;">
+    <div style="display: flex; gap: 10px;">
       <mat-form-field appearance="outline" style="flex: 1;">
         <mat-label>Nombres</mat-label>
         <input matInput formControlName="nombres">
       </mat-form-field>
-
       <mat-form-field appearance="outline" style="flex: 1;">
         <mat-label>Apellidos</mat-label>
         <input matInput formControlName="apellidos">
@@ -19,7 +17,7 @@
 
     <mat-form-field appearance="outline">
       <mat-label>Número de Teléfono</mat-label>
-      <input matInput formControlName="telefono" type="tel">
+      <input matInput formControlName="telefono">
     </mat-form-field>
 
     <mat-form-field appearance="outline">
@@ -40,15 +38,12 @@
       <mat-label>Correo de contacto</mat-label>
       <input matInput formControlName="correo" type="email">
     </mat-form-field>
-
-    <div style="display: flex; gap: 10px;">
-      <button mat-raised-button color="primary" type="submit" [disabled]="formularioEstudiante.invalid" style="flex: 1;">
-        {{ idEstudianteEnEdicion ? 'Actualizar Datos' : 'Registrar Estudiante' }}
-      </button>
-      
-      @if (idEstudianteEnEdicion) {
-        <button mat-button color="warn" type="button" (click)="cancelarEdicion()">Cancelar</button>
-      }
-    </div>
   </form>
-</div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" style="padding: 20px;">
+  <button mat-button (click)="cancelar()">Cancelar</button>
+  <button mat-raised-button color="primary" [disabled]="formularioEstudiante.invalid" (click)="guardar()">
+    {{ datos ? 'Actualizar' : 'Registrar' }}
+  </button>
+</mat-dialog-actions>
