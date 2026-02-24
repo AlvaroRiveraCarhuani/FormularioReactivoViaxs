@@ -1,8 +1,8 @@
-<h2 mat-dialog-title>⚡ Compra Rápida</h2>
+<h2 mat-dialog-title> Compra Rápida</h2>
 
 <mat-dialog-content>
-  <form [formGroup]="formBusqueda" class="form-agregar">
-    <mat-form-field appearance="outline" class="campo-producto">
+  <form [formGroup]="formBusqueda" style="display: flex; gap: 10px; margin-bottom: 20px; background: #f5f5f5; padding: 15px; border-radius: 8px;">
+    <mat-form-field appearance="outline" style="flex: 3;">
       <mat-label>Buscar producto...</mat-label>
       <input type="text" matInput formControlName="productoSeleccionado" [matAutocomplete]="auto">
       <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
@@ -14,51 +14,57 @@
       </mat-autocomplete>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" class="campo-cantidad">
+    <mat-form-field appearance="outline" style="flex: 1;">
       <mat-label>Cant.</mat-label>
       <input type="number" matInput formControlName="cantidad" min="1">
     </mat-form-field>
 
-    <button mat-flat-button color="primary" (click)="agregarAlCarrito()" [disabled]="!formBusqueda.valid">
-      Añadir
+    <button mat-mini-fab color="primary" (click)="agregarAlCarrito()" [disabled]="!formBusqueda.valid" style="margin-top: 8px;">
+      <mat-icon>add</mat-icon>
     </button>
   </form>
 
-  <div class="lista-carrito">
-    @if (carrito.length > 0) {
-      <div class="items-container">
-        @for (item of carrito; track item.producto.id; let i = $index) {
-          <div class="item-compra">
-            <div class="info">
-              <strong>{{ item.producto.nombre }}</strong>
-              <span class="detalle">{{ item.cantidad }} x Bs {{ item.producto.precio }}</span>
-            </div>
-            <div class="accion">
-              <span class="precio">Bs {{ item.subtotal }}</span>
-              <button mat-icon-button color="warn" (click)="eliminarDelCarrito(i)">
-                <mat-icon>close</mat-icon>
-              </button>
-            </div>
-          </div>
-        }
-      </div>
-      
-      <div class="resumen-total">
-        <span>Total a Pagar:</span>
-        <strong>Bs {{ totalGeneral }}</strong>
-      </div>
-    } @else {
-      <div class="vacio-carrito">
-        <p>El carrito está vacío. Agrega productos arriba.</p>
+  <div style="max-height: 250px; overflow-y: auto; margin-bottom: 20px;">
+    @for (item of carrito; track item.producto.id; let i = $index) {
+      <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee;">
+        <div>
+          <strong>{{ item.producto.nombre }}</strong><br>
+          <small class="text-muted">{{ item.cantidad }} x Bs {{ item.producto.precio }}</small>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span style="font-weight: bold;">Bs {{ item.subtotal }}</span>
+          <button mat-icon-button color="warn" (click)="eliminarDelCarrito(i)">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
       </div>
     }
+    @if(carrito.length === 0) {
+      <p style="text-align: center; color: gray;">Carrito vacío.</p>
+    }
   </div>
+
+  <form [formGroup]="formCliente" style="border-top: 2px dashed #ccc; padding-top: 15px;">
+    <div style="display: flex; justify-content: space-between; font-size: 1.2rem; margin-bottom: 15px;">
+      <span>Total a Pagar:</span>
+      <strong>Bs {{ totalGeneral }}</strong>
+    </div>
+
+    <mat-form-field appearance="outline" style="width: 100%;">
+      <mat-label>👤 Nombre del Cliente / Razón Social</mat-label>
+      <input matInput formControlName="nombreCliente" placeholder="Ej. Juan Pérez">
+      <mat-icon matSuffix>person</mat-icon>
+      <mat-error>Nombre requerido para la factura</mat-error>
+    </mat-form-field>
+  </form>
 
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
   <button mat-button mat-dialog-close>Cancelar</button>
-  <button mat-raised-button color="accent" [disabled]="carrito.length === 0" (click)="finalizarCompra()">
+  <button mat-raised-button color="accent" 
+    [disabled]="formCliente.invalid || carrito.length === 0" 
+    (click)="finalizarCompra()">
     Confirmar Venta
   </button>
 </mat-dialog-actions>

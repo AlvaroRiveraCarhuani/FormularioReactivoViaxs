@@ -6,8 +6,8 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatListModule } from '@angular/material/list'; // Para la lista visual
-import { ServicioProducto, Producto } from '../../../services/products';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { ServicioProducto, Producto, Venta } from '../../../services/products';
 import { Observable, startWith, map } from 'rxjs';
 
 interface ItemCarrito {
@@ -19,42 +19,43 @@ interface ItemCarrito {
 @Component({
   selector: 'app-compra-rapida',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, MatDialogModule, MatAutocompleteModule, MatInputModule, MatButtonModule, MatIconModule, MatListModule],
+  imports: [CommonModule, ReactiveFormsModule, MatDialogModule, MatAutocompleteModule, MatInputModule, MatButtonModule, MatIconModule, MatSnackBarModule],
   templateUrl: './compra-rapida.html',
   styleUrls: ['./compra-rapida.scss']
 })
 export class CompraRapidaComponent implements OnInit {
   formBusqueda!: FormGroup;
+  formCliente!: FormGroup;
   productosDisponibles: Producto[] = [];
   productosFiltrados$!: Observable<Producto[]>;
-  
   carrito: ItemCarrito[] = [];
   totalGeneral = 0;
 
   constructor(
     private fb: FormBuilder,
     private servicio: ServicioProducto,
+    private snackBar: MatSnackBar,
     private dialogRef: MatDialogRef<CompraRapidaComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
   ngOnInit(): void {
     this.formBusqueda = this.fb.group({
-      productoSeleccionado: ['', Validators.required], // Input de búsqueda
+      productoSeleccionado: [''],
       cantidad: [1, [Validators.required, Validators.min(1)]]
     });
 
-    // Cargar productos para el autocompletado
+    this.formCliente = this.fb.group({
+      nombreCliente: ['', [Validators.required, Validators.minLength(3)]]
+    });
+
     this.servicio.productos$.subscribe(prods => {
       this.productosDisponibles = prods;
-      
-      // Si venimos de un botón "Agregar" directo
       if (this.data?.productoPreseleccionado) {
-        this.agregarDirecto(this.data.productoPreseleccionado);
+        this.procesarAgregado(this.data.productoPreseleccionado, 1);
       }
     });
 
-    // Filtro del autocompletado
     this.productosFiltrados$ = this.formBusqueda.get('productoSeleccionado')!.valueChanges.pipe(
       startWith(''),
       map(value => (typeof value === 'string' ? value : value?.nombre)),
@@ -62,7 +63,6 @@ export class CompraRapidaComponent implements OnInit {
     );
   }
 
-  // Para mostrar el nombre en el input en vez del objeto
   displayFn(producto: Producto): string {
     return producto && producto.nombre ? producto.nombre : '';
   }
@@ -77,32 +77,29 @@ export class CompraRapidaComponent implements OnInit {
     const cant = this.formBusqueda.get('cantidad')?.value;
 
     if (prod && typeof prod === 'object' && cant > 0) {
+      const itemEnCarrito = this.carrito.find(i => i.producto.id === prod.id);
+      const cantidadTotalEnCarrito = (itemEnCarrito?.cantidad || 0) + cant;
+
+      if (cantidadTotalEnCarrito > prod.stock) {
+        this.snackBar.open(`Stock insuficiente. Solo quedan ${prod.stock} unidades.`, 'Cerrar', { duration: 3000 });
+        return;
+      }
+
       this.procesarAgregado(prod, cant);
+      this.formBusqueda.get('productoSeleccionado')?.setValue('');
+      this.formBusqueda.get('cantidad')?.setValue(1);
     }
   }
 
-  agregarDirecto(prod: Producto) {
-    this.procesarAgregado(prod, 1);
-  }
-
   procesarAgregado(producto: Producto, cantidad: number) {
-    // Verificar si ya existe en el carrito
     const existe = this.carrito.find(item => item.producto.id === producto.id);
-
     if (existe) {
       existe.cantidad += cantidad;
       existe.subtotal = existe.cantidad * existe.producto.precio;
     } else {
-      this.carrito.push({
-        producto: producto,
-        cantidad: cantidad,
-        subtotal: cantidad * producto.precio
-      });
+      this.carrito.push({ producto, cantidad, subtotal: cantidad * producto.precio });
     }
-
     this.calcularTotal();
-    // Limpiar formulario para seguir añadiendo rápido
-    this.formBusqueda.patchValue({ productoSeleccionado: '', cantidad: 1 });
   }
 
   eliminarDelCarrito(index: number) {
@@ -115,8 +112,22 @@ export class CompraRapidaComponent implements OnInit {
   }
 
   finalizarCompra() {
-    // Aquí iría la lógica para descontar stock del servicio
-    alert(`Venta realizada por Bs ${this.totalGeneral}`);
-    this.dialogRef.close(true);
+    if (this.formCliente.valid && this.carrito.length > 0) {
+      const nuevaVenta: Venta = {
+        id: Date.now(),
+        fecha: new Date(),
+        cliente: this.formCliente.get('nombreCliente')?.value,
+        total: this.totalGeneral,
+        items: this.carrito.map(item => ({
+          productoNombre: item.producto.nombre,
+          cantidad: item.cantidad,
+          precioUnitario: item.producto.precio,
+          subtotal: item.subtotal
+        }))
+      };
+
+      this.servicio.registrarVenta(nuevaVenta);
+      this.dialogRef.close(true);
+    }
   }
 }
