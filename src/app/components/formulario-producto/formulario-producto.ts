@@ -6,9 +6,10 @@ import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
 import { MatButtonModule } from '@angular/material/button';
-import { MatAutocompleteModule } from '@angular/material/autocomplete'; // Importante para el buscador
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatIconModule } from '@angular/material/icon';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { ServicioProducto } from '../../services/products'; // Importamos el servicio renombrado
+import { ServicioProducto, Producto } from '../../services/products';
 import { Observable, startWith, switchMap } from 'rxjs';
 
 @Component({
@@ -22,7 +23,8 @@ import { Observable, startWith, switchMap } from 'rxjs';
     MatFormFieldModule, 
     MatSelectModule, 
     MatButtonModule, 
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatIconModule
   ],
   templateUrl: './formulario-producto.html',
   styleUrls: ['./formulario-producto.scss']
@@ -31,6 +33,9 @@ export class ComponenteFormularioProducto implements OnInit {
   formularioProducto!: FormGroup;
   categorias = ['Hardware', 'Software', 'Periféricos', 'Redes', 'Mobiliario', 'Accesorios'];
   sugerencias$!: Observable<string[]>;
+  
+  // Lista temporal (Staging Area)
+  productosAcumulados: any[] = []; // Usamos 'any' temporalmente porque aún no tienen ID
 
   constructor(
     private fb: FormBuilder,
@@ -48,37 +53,60 @@ export class ComponenteFormularioProducto implements OnInit {
       stock: [this.datos?.stock || '', [Validators.required, Validators.min(0), Validators.pattern('^[0-9]*$')]]
     });
 
-    // Reactividad: Escucha lo que escribes y busca en el catálogo
     this.sugerencias$ = this.formularioProducto.get('nombre')!.valueChanges.pipe(
       startWith(''),
       switchMap(valor => this.servicio.buscarEnCatalogo(valor || ''))
     );
   }
 
-  // Cierra el modal tras guardar
-  guardarYCerrar(): void {
+  // 1. Agregar a la lista temporal (NO GUARDAR EN BD AÚN)
+  agregarALista(): void {
     if (this.formularioProducto.valid) {
-      this.dialogRef.close(this.formularioProducto.value);
+      const prod = this.formularioProducto.value;
+      
+      this.productosAcumulados.push(prod);
+      
+      // UX: Guardar categoría para no re-seleccionar
+      const catActual = prod.categoria;
+      
+      this.formularioProducto.reset();
+      this.formularioProducto.patchValue({ categoria: catActual });
+      
+      // Limpiar errores visuales
+      Object.keys(this.formularioProducto.controls).forEach(key => {
+        this.formularioProducto.get(key)?.setErrors(null);
+      });
     }
   }
 
-  // Guarda pero mantiene el modal abierto para seguir registrando
-  guardarYContinuar(): void {
-    if (this.formularioProducto.valid) {
-      this.servicio.agregar(this.formularioProducto.value);
-      
-      this.snackBar.open('✅ Producto agregado. Sigue registrando.', 'Ok', { duration: 2000 });
-      
-      // Guardamos la categoría actual para no tener que seleccionarla de nuevo (Mejora UX)
-      const categoriaActual = this.formularioProducto.get('categoria')?.value;
-      
-      this.formularioProducto.reset();
-      // Restauramos la categoría y ponemos valores por defecto
-      this.formularioProducto.patchValue({ 
-        categoria: categoriaActual,
-        precio: '',
-        stock: '' 
-      });
+  // 2. Eliminar de la lista temporal antes de guardar
+  eliminarDeLista(index: number): void {
+    this.productosAcumulados.splice(index, 1);
+  }
+
+  // 3. Guardar todo de golpe
+  registrarTodo(): void {
+    // Si hay algo en el formulario sin agregar a la lista, lo agregamos automáticamente
+    if (this.formularioProducto.valid && this.formularioProducto.dirty) {
+      this.productosAcumulados.push(this.formularioProducto.value);
+    }
+
+    if (this.datos) {
+      // MODO EDICIÓN (Solo uno)
+      if (this.formularioProducto.valid) {
+         this.dialogRef.close(this.formularioProducto.value);
+      }
+    } else {
+      // MODO CREACIÓN MASIVA
+      if (this.productosAcumulados.length > 0) {
+        // Aquí simulamos el "bulk insert" recorriendo el array
+        this.productosAcumulados.forEach(prod => {
+          this.servicio.agregar(prod);
+        });
+        
+        this.snackBar.open(`✅ Se registraron ${this.productosAcumulados.length} productos correctamente.`, 'Cerrar', { duration: 3000 });
+        this.dialogRef.close(true);
+      }
     }
   }
 

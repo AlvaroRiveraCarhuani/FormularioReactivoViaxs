@@ -1,67 +1,71 @@
-<h2 mat-dialog-title> Compra Rápida</h2>
+<h2 mat-dialog-title>⚡ Compra Rápida</h2>
 
 <mat-dialog-content>
-  <form [formGroup]="formBusqueda" style="display: flex; gap: 10px; margin-bottom: 20px; background: #f5f5f5; padding: 15px; border-radius: 8px;">
-    <mat-form-field appearance="outline" style="flex: 3;">
+  <form [formGroup]="formBusqueda" class="form-agregar-producto">
+    
+    <mat-form-field appearance="fill" class="input-producto">
       <mat-label>Buscar producto...</mat-label>
       <input type="text" matInput formControlName="productoSeleccionado" [matAutocomplete]="auto">
       <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
         @for (prod of productosFiltrados$ | async; track prod.id) {
           <mat-option [value]="prod">
-            <span>{{ prod.nombre }}</span> | <small>Stock: {{ prod.stock }}</small>
+            <span style="font-weight: bold;">{{ prod.nombre }}</span> 
+            <small style="color: #aaa;"> (Stock: {{ prod.stock }})</small>
           </mat-option>
         }
       </mat-autocomplete>
     </mat-form-field>
 
-    <mat-form-field appearance="outline" style="flex: 1;">
+    <mat-form-field appearance="fill" class="input-cantidad">
       <mat-label>Cant.</mat-label>
       <input type="number" matInput formControlName="cantidad" min="1">
     </mat-form-field>
 
-    <button mat-mini-fab color="primary" (click)="agregarAlCarrito()" [disabled]="!formBusqueda.valid" style="margin-top: 8px;">
+    <button mat-mini-fab color="accent" (click)="agregarAlCarrito()" [disabled]="formBusqueda.invalid">
       <mat-icon>add</mat-icon>
     </button>
   </form>
 
-  <div style="max-height: 250px; overflow-y: auto; margin-bottom: 20px;">
-    @for (item of carrito; track item.producto.id; let i = $index) {
-      <div style="display: flex; justify-content: space-between; align-items: center; padding: 10px; border-bottom: 1px solid #eee;">
-        <div>
-          <strong>{{ item.producto.nombre }}</strong><br>
-          <small class="text-muted">{{ item.cantidad }} x Bs {{ item.producto.precio }}</small>
-        </div>
-        <div style="display: flex; align-items: center; gap: 10px;">
-          <span style="font-weight: bold;">Bs {{ item.subtotal }}</span>
-          <button mat-icon-button color="warn" (click)="eliminarDelCarrito(i)">
-            <mat-icon>close</mat-icon>
-          </button>
-        </div>
-      </div>
-    }
+  <div class="carrito-container">
     @if(carrito.length === 0) {
-      <p style="text-align: center; color: gray;">Carrito vacío.</p>
+      <div class="carrito-vacio">
+        <p>El carrito está vacío.</p>
+      </div>
+    } @else {
+      @for (item of carrito; track item.producto.id; let i = $index) {
+        <div class="item-carrito">
+          <div class="info">
+            <div class="nombre">{{ item.producto.nombre }}</div>
+            <div class="detalle">{{ item.cantidad }} x Bs {{ item.producto.precio }}</div>
+          </div>
+          <div class="acciones">
+            <span class="subtotal">Bs {{ item.subtotal }}</span>
+            <button mat-icon-button color="warn" (click)="eliminarDelCarrito(i)">
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+        </div>
+      }
     }
   </div>
 
-  <form [formGroup]="formCliente" style="border-top: 2px dashed #ccc; padding-top: 15px;">
-    <div style="display: flex; justify-content: space-between; font-size: 1.2rem; margin-bottom: 15px;">
+  <form [formGroup]="formCliente" class="seccion-cliente">
+    <div class="total-row">
       <span>Total a Pagar:</span>
-      <strong>Bs {{ totalGeneral }}</strong>
+      <span class="monto">Bs {{ totalGeneral }}</span>
     </div>
 
-    <mat-form-field appearance="outline" style="width: 100%;">
-      <mat-label>👤 Nombre del Cliente / Razón Social</mat-label>
+    <mat-form-field appearance="fill" style="width: 100%;">
+      <mat-label>Nombre del Cliente / Razón Social</mat-label>
       <input matInput formControlName="nombreCliente" placeholder="Ej. Juan Pérez">
-      <mat-icon matSuffix>person</mat-icon>
-      <mat-error>Nombre requerido para la factura</mat-error>
+      <mat-icon matSuffix style="color: var(--vaixs-neon);">person</mat-icon>
     </mat-form-field>
   </form>
 
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-button mat-dialog-close style="color: #aaa;">Cancelar</button>
   <button mat-raised-button color="accent" 
     [disabled]="formCliente.invalid || carrito.length === 0" 
     (click)="finalizarCompra()">

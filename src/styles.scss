@@ -1,12 +1,87 @@
-@use '@angular/material' as mat;
-@import '@angular/material/prebuilt-themes/azure-blue.css';
-
-html, body { 
-  height: 100%; 
+/* --- TEMA DARK MODE VAIXS (CORREGIDO) --- */
+:root {
+  --vaixs-bg-dark: #050505;
+  --vaixs-panel-bg: #1e1e1e;
+  --vaixs-neon: #00e676; /* Verde Neón */
+  --vaixs-border: #333333;
+  --vaixs-text-main: #ffffff;
+  --vaixs-text-muted: #b0b0b0;
 }
 
+html, body { height: 100%; margin: 0; }
+
 body { 
-  margin: 0; 
-  font-family: Roboto, "Helvetica Neue", sans-serif; 
-  background-color: #f5f5f5;
+  font-family: 'Roboto', sans-serif;
+  color: var(--vaixs-text-main);
+  background: radial-gradient(circle at top right, #002e1f 0%, #000000 70%);
+  background-attachment: fixed;
+}
+
+/* --- 1. ARREGLO DE INPUTS (ADIÓS FONDO BLANCO) --- */
+.mat-mdc-text-field-wrapper {
+  background-color: #2c2c2c !important; /* Fondo gris oscuro para inputs */
+  border-radius: 4px;
+}
+
+.mat-mdc-form-field-focus-overlay {
+  background-color: transparent !important; /* Quita el brillo blanco al hacer click */
+}
+
+/* Texto dentro del input */
+.mat-mdc-input-element {
+  color: white !important;
+  caret-color: var(--vaixs-neon) !important;
+}
+
+/* Etiquetas (Labels) */
+.mat-mdc-form-field-label, .mat-mdc-floating-label {
+  color: var(--vaixs-text-muted) !important;
+}
+
+.mat-mdc-form-field.mat-focused .mat-mdc-floating-label {
+  color: var(--vaixs-neon) !important;
+}
+
+/* --- 2. ARREGLO DE MENÚS DESPLEGABLES (AUTOCOMPLETE) --- */
+.mat-mdc-autocomplete-panel, .mat-mdc-select-panel {
+  background-color: #1e1e1e !important;
+  border: 1px solid var(--vaixs-border);
+}
+
+.mat-mdc-option {
+  color: white !important;
+}
+
+.mat-mdc-option:hover, .mat-mdc-option.mdc-list-item--selected {
+  background-color: rgba(0, 230, 118, 0.15) !important;
+}
+
+.mat-mdc-option .mdc-list-item__primary-text {
+  color: white !important;
+}
+
+/* --- 3. ARREGLO DE MODALES Y TABLAS --- */
+.mat-mdc-dialog-surface {
+  background-color: #141414 !important; /* Fondo oscuro del modal */
+  color: white !important;
+  border: 1px solid var(--vaixs-border);
+}
+
+.mat-mdc-dialog-title {
+  color: var(--vaixs-neon) !important;
+  border-bottom: 1px solid #333;
+  margin-bottom: 20px !important;
+}
+
+/* Tablas transparentes */
+.mat-mdc-table { background: transparent !important; }
+.mat-mdc-header-cell { color: var(--vaixs-neon) !important; }
+.mat-mdc-cell { color: white !important; border-bottom-color: #333 !important; }
+.mat-mdc-row:hover { background: rgba(255, 255, 255, 0.05) !important; }
+
+/* --- 4. BOTONES --- */
+.mat-mdc-raised-button.mat-accent {
+  background-color: var(--vaixs-neon) !important;
+  color: black !important;
+  font-weight: bold;
 }

@@ -1,30 +1,87 @@
+.contenedor-inventario {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.header-seccion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  flex-wrap: wrap;
+  gap: 10px;
+
+  h2 {
+    color: var(--vaixs-neon) !important;
+    margin: 0;
+    font-weight: bold;
+    letter-spacing: 1px;
+  }
+}
+
+.buscador-full {
+  width: 100%;
+}
+
+/* --- FORZADO DE TABLA DARK MODE --- */
 .contenedor-tabla {
   width: 100%;
-  overflow-x: auto; // Permite scroll horizontal en celulares
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(15, 15, 15, 0.8) !important; // Fondo casi negro sólido
+  box-shadow: 0 4px 15px rgba(0,0,0,0.5);
 }
 
-table {
-  width: 100%;
-  min-width: 600px; // Evita que las columnas se aplasten demasiado
-}
-
-// Ajustes para pantallas muy pequeñas
-@media (max-width: 600px) {
-  h2 {
-    font-size: 1.2rem;
-    text-align: center;
+// Aplicamos estilos a las celdas de Material
+::v-deep {
+  .mat-mdc-table {
+    background: transparent !important;
   }
-  
+
   .mat-mdc-header-cell {
-    font-size: 12px;
-    padding: 4px !important;
+    color: var(--vaixs-neon) !important;
+    font-weight: bold !important;
+    border-bottom: 2px solid var(--vaixs-neon) !important;
+    background: rgba(0,0,0,0.3) !important;
+    padding: 15px !important;
   }
 
   .mat-mdc-cell {
-    font-size: 12px;
-    padding: 4px !important;
+    color: #ffffff !important; // FUERZA EL TEXTO BLANCO
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    padding: 15px !important;
   }
+
+  .mat-mdc-row:hover {
+    background: rgba(255, 255, 255, 0.05) !important;
+  }
+}
+
+/* --- ESTILOS INTERNOS --- */
+.badge-categoria {
+  background: rgba(0, 230, 118, 0.1);
+  color: var(--vaixs-neon);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 11px;
+  font-weight: bold;
+  border: 1px solid var(--vaixs-neon);
+  white-space: nowrap;
+}
+
+.stock-critico {
+  color: #ff5252 !important;
+  font-weight: bold;
+}
+
+.vacio-container {
+  text-align: center;
+  margin-top: 40px;
+  color: #888;
 }

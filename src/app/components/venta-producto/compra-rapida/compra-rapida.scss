@@ -1,55 +1,69 @@
-.form-agregar {
+/* Formulario superior flex */
+.form-agregar-producto {
   display: flex;
   gap: 10px;
-  align-items: center;
-  margin-bottom: 20px;
-  background: #f5f5f5;
-  padding: 15px;
-  border-radius: 8px;
+  align-items: flex-start; /* Alinea arriba para que no salten */
+  margin-bottom: 15px;
 
-  .campo-producto { flex: 3; }
-  .campo-cantidad { flex: 1; }
-  button { height: 56px; margin-bottom: 22px; } /* Ajuste visual para alinear con inputs */
-}
-
-.items-container {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-height: 300px;
-  overflow-y: auto;
-}
-
-.item-compra {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background: #333; /* Estilo oscuro como tu boceto */
-  color: white;
-  padding: 12px 20px;
-  border-radius: 8px;
-  border: 1px solid #444;
-
-  .info {
-    display: flex;
-    flex-direction: column;
-    strong { font-size: 1.1rem; }
-    .detalle { font-size: 0.9rem; color: #ccc; }
+  .input-producto {
+    flex: 3; /* Ocupa más espacio */
   }
 
-  .accion {
+  .input-cantidad {
+    flex: 1; /* Ocupa menos espacio */
+    max-width: 100px;
+  }
+
+  button {
+    margin-top: 8px; /* Ajuste para alinear con los inputs */
+  }
+}
+
+/* Contenedor del Carrito */
+.carrito-container {
+  max-height: 200px;
+  overflow-y: auto;
+  background: rgba(0,0,0,0.2); /* Fondo sutilmente más oscuro */
+  border-radius: 4px;
+  margin-bottom: 20px;
+  border: 1px solid #333;
+}
+
+.carrito-vacio {
+  padding: 30px;
+  text-align: center;
+  color: #777;
+}
+
+.item-carrito {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  border-bottom: 1px solid #333;
+
+  .nombre { color: white; font-weight: 500; }
+  .detalle { color: #aaa; font-size: 0.9rem; }
+  
+  .acciones {
     display: flex;
     align-items: center;
-    gap: 15px;
-    .precio { font-size: 1.2rem; font-weight: bold; color: #69f0ae; }
+    gap: 10px;
+    .subtotal { color: var(--vaixs-neon); font-weight: bold; }
   }
 }
 
-.resumen-total {
-  margin-top: 20px;
-  padding-top: 15px;
-  border-top: 2px dashed #ccc;
-  display: flex;
-  justify-content: space-between;
-  font-size: 1.5rem;
+/* Sección Final */
+.seccion-cliente {
+  border-top: 1px dashed #444;
+  padding-top: 20px;
+
+  .total-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: white;
+
+    .monto { color: var(--vaixs-neon); font-weight: bold; font-size: 1.4rem; }
+  }
 }

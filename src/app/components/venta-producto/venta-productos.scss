@@ -1,5 +1,5 @@
 .contenedor-ventas {
-  padding: 20px;
+  padding: 30px 20px;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -8,37 +8,131 @@ header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 30px;
-  
-  h2 { color: #333; margin: 0; }
+  margin-bottom: 40px;
+  flex-wrap: wrap;
+  gap: 20px;
+
+  h2 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin: 0;
+    background: linear-gradient(to right, #fff, #bbb);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent; /* Efecto texto metálico */
+  }
+
+  .zona-filtros {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    flex-wrap: wrap;
+
+    /* Arreglo visual del selector */
+    .selector-categoria {
+      width: 250px; 
+      font-size: 0.95rem;
+    }
+  }
+
+  /* Botón Compra Rápida Brillante */
+  button {
+    height: 50px;
+    padding: 0 30px;
+    font-size: 1rem;
+    box-shadow: 0 0 15px rgba(0, 230, 118, 0.4); /* Resplandor verde */
+    transition: transform 0.2s;
+    
+    &:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(0, 230, 118, 0.6);
+    }
+  }
 }
 
 .grid-productos {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* Responsive automático */
-  gap: 20px;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 25px;
 }
 
+/* --- TARJETA DARK MODE --- */
 .tarjeta-producto {
-  background: white;
-  border: 1px solid #eee;
-  transition: transform 0.2s;
+  background: rgba(30, 30, 30, 0.6) !important; /* Semi transparente */
+  backdrop-filter: blur(10px); /* Efecto vidrio */
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  transition: all 0.3s ease;
 
   &:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    transform: translateY(-8px);
+    border-color: var(--vaixs-green-neon);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    
+    .precio {
+      text-shadow: 0 0 10px rgba(0, 230, 118, 0.5);
+    }
   }
 
   .card-header {
     display: flex;
     justify-content: space-between;
-    padding: 10px 16px 0;
-    font-size: 0.8rem;
-    
-    .categoria { background: #e3f2fd; color: #1565c0; padding: 2px 8px; border-radius: 4px; }
-    .stock.bajo { color: red; font-weight: bold; }
+    padding: 15px 15px 5px;
+
+    .categoria {
+      background: rgba(255, 255, 255, 0.1);
+      color: #ccc;
+      padding: 4px 10px;
+      font-size: 0.7rem;
+      border-radius: 4px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+    }
+
+    .stock {
+      font-size: 0.8rem;
+      font-weight: bold;
+      color: var(--vaixs-green-neon);
+      
+      &.bajo { color: #ffab00; }
+      &.agotado { color: #ff1744; }
+    }
   }
 
-  h3 { margin: 10px 0 5px; font-size: 1.1rem; }
-  .precio { font-size: 1.2rem; font-weight: bold; color: #2e7d32; }
+  mat-card-content {
+    padding: 10px 15px 20px;
+
+    h3 {
+      color: white;
+      font-size: 1.2rem;
+      margin: 10px 0;
+      font-weight: 500;
+    }
+
+    .precio {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--vaixs-green-neon);
+      margin: 0;
+    }
+  }
+
+  mat-card-actions {
+    padding: 0 15px 20px;
+    button {
+      border-radius: 8px;
+      border-width: 2px;
+      &:hover {
+        background: rgba(0, 230, 118, 0.1);
+      }
+    }
+  }
 }
+
+.vacio {
+  grid-column: 1 / -1;
+  text-align: center;
+  color: #555;
+  background: transparent;
+  mat-icon { font-size: 60px; width: 60px; height: 60px; opacity: 0.5; }
+}   
