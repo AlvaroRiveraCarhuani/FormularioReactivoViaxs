@@ -1,0 +1,35 @@
+<div class="contenedor-ventas">
+  <header>
+    <h2>🛒 Catálogo de Productos</h2>
+    <button mat-raised-button color="accent" (click)="abrirCompraRapida()">
+      <mat-icon>shopping_cart_checkout</mat-icon>
+      Compra Rápida
+    </button>
+  </header>
+
+  <div class="grid-productos">
+    @for (prod of productos$ | async; track prod.id) {
+      <mat-card class="tarjeta-producto">
+        <div class="card-header">
+          <span class="categoria">{{ prod.categoria }}</span>
+          <span class="stock" [class.bajo]="prod.stock < 5">{{ prod.stock }} un.</span>
+        </div>
+        
+        <mat-card-content>
+          <h3>{{ prod.nombre }}</h3>
+          <p class="precio">Bs {{ prod.precio }}</p>
+        </mat-card-content>
+
+        <mat-card-actions align="end">
+          <button mat-stroked-button color="primary" (click)="agregarAlCarrito(prod)">
+            + Agregar
+          </button>
+        </mat-card-actions>
+      </mat-card>
+    } @empty {
+      <div class="vacio">
+        <p>No hay productos en inventario.</p>
+      </div>
+    }
+  </div>
+</div>

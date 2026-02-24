@@ -1,0 +1,64 @@
+<h2 mat-dialog-title>⚡ Compra Rápida</h2>
+
+<mat-dialog-content>
+  <form [formGroup]="formBusqueda" class="form-agregar">
+    <mat-form-field appearance="outline" class="campo-producto">
+      <mat-label>Buscar producto...</mat-label>
+      <input type="text" matInput formControlName="productoSeleccionado" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+        @for (prod of productosFiltrados$ | async; track prod.id) {
+          <mat-option [value]="prod">
+            <span>{{ prod.nombre }}</span> | <small>Stock: {{ prod.stock }}</small>
+          </mat-option>
+        }
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="campo-cantidad">
+      <mat-label>Cant.</mat-label>
+      <input type="number" matInput formControlName="cantidad" min="1">
+    </mat-form-field>
+
+    <button mat-flat-button color="primary" (click)="agregarAlCarrito()" [disabled]="!formBusqueda.valid">
+      Añadir
+    </button>
+  </form>
+
+  <div class="lista-carrito">
+    @if (carrito.length > 0) {
+      <div class="items-container">
+        @for (item of carrito; track item.producto.id; let i = $index) {
+          <div class="item-compra">
+            <div class="info">
+              <strong>{{ item.producto.nombre }}</strong>
+              <span class="detalle">{{ item.cantidad }} x Bs {{ item.producto.precio }}</span>
+            </div>
+            <div class="accion">
+              <span class="precio">Bs {{ item.subtotal }}</span>
+              <button mat-icon-button color="warn" (click)="eliminarDelCarrito(i)">
+                <mat-icon>close</mat-icon>
+              </button>
+            </div>
+          </div>
+        }
+      </div>
+      
+      <div class="resumen-total">
+        <span>Total a Pagar:</span>
+        <strong>Bs {{ totalGeneral }}</strong>
+      </div>
+    } @else {
+      <div class="vacio-carrito">
+        <p>El carrito está vacío. Agrega productos arriba.</p>
+      </div>
+    }
+  </div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancelar</button>
+  <button mat-raised-button color="accent" [disabled]="carrito.length === 0" (click)="finalizarCompra()">
+    Confirmar Venta
+  </button>
+</mat-dialog-actions>

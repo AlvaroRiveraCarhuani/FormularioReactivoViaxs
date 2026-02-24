@@ -1,9 +1,19 @@
 <mat-toolbar color="primary" style="display: flex; gap: 15px; margin-bottom: 20px;">
-  <span>Lista Productos</span>
+  <span style="font-weight: bold; margin-left: 10px;">📦 Vaixs Inventory</span>
+  
   <span style="flex: 1 1 auto;"></span>
-  <button mat-button routerLink="/lista" routerLinkActive="active-link">Lista Productos</button>
+  
+  <button mat-button routerLink="/inventario" routerLinkActive="active-link">
+    <mat-icon style="vertical-align: middle; margin-right: 4px;">inventory_2</mat-icon>
+    Inventario
+  </button>
+  
+  <button mat-button routerLink="/ventas" routerLinkActive="active-link">
+    <mat-icon style="vertical-align: middle; margin-right: 4px;">shopping_cart</mat-icon>
+    Ventas
+  </button>
 </mat-toolbar>
 
-<main style="padding: 0 20px;">
+<main style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
   <router-outlet></router-outlet>
 </main>

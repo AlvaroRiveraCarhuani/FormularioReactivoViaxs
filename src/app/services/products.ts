@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, of } from 'rxjs';
 
-// Definimos la estructura exacta de un Producto
 export interface Producto {
   id: number;
   nombre: string;
   categoria: string;
-  precio: number; // En Bolivianos
+  precio: number;
   stock: number;
 }
 
@@ -17,25 +16,53 @@ export class ServicioProducto {
   private fuenteProductos = new BehaviorSubject<Producto[]>([]);
   productos$ = this.fuenteProductos.asObservable();
 
-  // "Base de datos" simulada para el autocompletado
+  // Un catálogo base más completo para el autocompletado y datos iniciales
   private catalogoBase: string[] = [
-    'Laptop Dell Inspiron 15', 'Monitor Samsung 24" Curvo', 'Teclado Mecánico Redragon', 
-    'Mouse Logitech G203', 'Disco SSD Kingston 480GB', 'Memoria RAM HyperX 8GB', 
-    'Procesador Ryzen 5 5600G', 'Fuente de Poder Corsair 650W', 'Case Gamer RGB', 
-    'Cable HDMI 2.0', 'Licencia Windows 11 Pro', 'Antivirus Kaspersky'
+    // Laptops
+    'Laptop Dell Inspiron 15', 'MacBook Air M2', 'Lenovo ThinkPad X1', 'Asus ROG Strix G15',
+    // Monitores
+    'Monitor Samsung 24" Curvo', 'Monitor LG UltraWide 29"', 'Monitor Dell P2723QE 4K',
+    // Periféricos
+    'Teclado Mecánico Redragon Kumara', 'Mouse Logitech G203 Lightsync', 'Headset HyperX Cloud II', 'Webcam Logitech C920',
+    // Componentes
+    'Procesador AMD Ryzen 7 5800X', 'Tarjeta Gráfica NVIDIA RTX 4060', 'Memoria RAM Corsair Vengeance 16GB DDR4', 'Disco SSD NVMe Samsung 980 Pro 1TB',
+    // Accesorios
+    'Silla Gamer Ergonómica', 'Escritorio Ajustable en Altura', 'Mochila para Laptop Antirrobo', 'Soporte para Monitor Doble',
+    // Software
+    'Licencia Windows 11 Pro', 'Suscripción Office 365 Personal', 'Antivirus Bitdefender Total Security'
   ];
 
   constructor() {
     const datosGuardados = localStorage.getItem('productosVaixs');
     if (datosGuardados) {
       this.fuenteProductos.next(JSON.parse(datosGuardados));
+    } else {
+      // ¡Si no hay datos, cargamos unos productos iniciales de ejemplo!
+      this.cargarProductosIniciales();
     }
   }
 
-  // Método inteligente: Busca coincidencias para el autocompletado
+  // Función para crear datos de prueba al inicio
+  private cargarProductosIniciales() {
+    const productosIniciales: Producto[] = [
+      { id: 1, nombre: 'Laptop Dell Inspiron 15', categoria: 'Hardware', precio: 4500, stock: 10 },
+      { id: 2, nombre: 'Monitor Samsung 24" Curvo', categoria: 'Periféricos', precio: 1200, stock: 25 },
+      { id: 3, nombre: 'Teclado Mecánico Redragon Kumara', categoria: 'Periféricos', precio: 350, stock: 50 },
+      { id: 4, nombre: 'Mouse Logitech G203 Lightsync', categoria: 'Periféricos', precio: 200, stock: 4 }, // Stock bajo para probar la alerta
+      { id: 5, nombre: 'Licencia Windows 11 Pro', categoria: 'Software', precio: 850, stock: 100 },
+      { id: 6, nombre: 'Silla Gamer Ergonómica', categoria: 'Mobiliario', precio: 1800, stock: 8 },
+      { id: 7, nombre: 'Disco SSD NVMe Samsung 1TB', categoria: 'Hardware', precio: 650, stock: 15 }
+    ];
+    this.actualizarYGuardar(productosIniciales);
+  }
+
   buscarEnCatalogo(termino: string): Observable<string[]> {
     const filtro = termino.toLowerCase();
-    return of(this.catalogoBase.filter(p => p.toLowerCase().includes(filtro)));
+    // Buscamos en el catálogo base y también en los productos ya registrados
+    const nombresRegistrados = this.fuenteProductos.value.map(p => p.nombre);
+    const universoDeBusqueda = Array.from(new Set([...this.catalogoBase, ...nombresRegistrados]));
+
+    return of(universoDeBusqueda.filter(p => p.toLowerCase().includes(filtro)).slice(0, 10)); // Limitamos a 10 sugerencias
   }
 
   private actualizarYGuardar(nuevos: Producto[]) {
@@ -48,7 +75,6 @@ export class ServicioProducto {
     const nuevos = [...actuales, { ...producto, id: Date.now() }];
     this.actualizarYGuardar(nuevos);
     
-    // Aprendizaje: Si el usuario escribe un producto nuevo, lo guardamos en el catálogo base
     if (!this.catalogoBase.includes(producto.nombre)) {
       this.catalogoBase.push(producto.nombre);
     }

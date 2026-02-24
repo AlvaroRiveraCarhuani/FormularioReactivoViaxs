@@ -1,0 +1,55 @@
+.form-agregar {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+  margin-bottom: 20px;
+  background: #f5f5f5;
+  padding: 15px;
+  border-radius: 8px;
+
+  .campo-producto { flex: 3; }
+  .campo-cantidad { flex: 1; }
+  button { height: 56px; margin-bottom: 22px; } /* Ajuste visual para alinear con inputs */
+}
+
+.items-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  max-height: 300px;
+  overflow-y: auto;
+}
+
+.item-compra {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #333; /* Estilo oscuro como tu boceto */
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  border: 1px solid #444;
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    strong { font-size: 1.1rem; }
+    .detalle { font-size: 0.9rem; color: #ccc; }
+  }
+
+  .accion {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    .precio { font-size: 1.2rem; font-weight: bold; color: #69f0ae; }
+  }
+}
+
+.resumen-total {
+  margin-top: 20px;
+  padding-top: 15px;
+  border-top: 2px dashed #ccc;
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.5rem;
+}
