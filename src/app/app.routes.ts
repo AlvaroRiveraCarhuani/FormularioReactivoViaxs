@@ -1,8 +1,8 @@
 import { Routes } from '@angular/router';
-import { ComponenteListaEstudiantes } from './components/lista-estudiantes/lista-estudiantes';
+import { ComponenteListaProductos } from './components/lista-productos/lista-productos';
 
 export const rutas: Routes = [
-  { path: 'lista', component: ComponenteListaEstudiantes },
+  { path: 'lista', component: ComponenteListaProductos },
   { path: '', redirectTo: '/lista', pathMatch: 'full' },
   { path: '**', redirectTo: '/lista' }
 ];

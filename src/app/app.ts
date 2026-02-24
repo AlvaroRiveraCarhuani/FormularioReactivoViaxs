@@ -11,5 +11,5 @@ import { MatButtonModule } from '@angular/material/button';
   styleUrls: ['./app.scss']
 })
 export class App {
-  titulo = 'sistema-estudiantes';
+  titulo = 'Sistema Productos';
 }

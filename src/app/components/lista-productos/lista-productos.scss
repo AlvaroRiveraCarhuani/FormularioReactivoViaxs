@@ -1,0 +1,30 @@
+.contenedor-tabla {
+  width: 100%;
+  overflow-x: auto; // Permite scroll horizontal en celulares
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+table {
+  width: 100%;
+  min-width: 600px; // Evita que las columnas se aplasten demasiado
+}
+
+// Ajustes para pantallas muy pequeñas
+@media (max-width: 600px) {
+  h2 {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+  
+  .mat-mdc-header-cell {
+    font-size: 12px;
+    padding: 4px !important;
+  }
+
+  .mat-mdc-cell {
+    font-size: 12px;
+    padding: 4px !important;
+  }
+}
