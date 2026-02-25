@@ -1,40 +1,72 @@
-/* --- TEMA DARK MODE VAIXS (CORREGIDO) --- */
+@use 'shared' as *;
+
+/* --- TEMA DARK MODE VAIXS (PREMIUM) --- */
 :root {
   --vaixs-bg-dark: #050505;
-  --vaixs-panel-bg: #1e1e1e;
-  --vaixs-neon: #00e676; /* Verde Neón */
-  --vaixs-border: #333333;
+  --vaixs-panel-bg: rgba(30, 30, 30, 0.7);
+  --vaixs-neon: #00e676;
+  /* Verde Neón */
+  --vaixs-neon-glow: rgba(0, 230, 118, 0.4);
+  --vaixs-border: rgba(255, 255, 255, 0.1);
   --vaixs-text-main: #ffffff;
   --vaixs-text-muted: #b0b0b0;
+  --vaixs-accent: #00e676;
 }
 
-html, body { height: 100%; margin: 0; }
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  /* El scroll lo maneja el sidenav-content */
+}
 
-body { 
-  font-family: 'Roboto', sans-serif;
+body {
+  font-family: 'Outfit', 'Roboto', sans-serif;
   color: var(--vaixs-text-main);
   background: radial-gradient(circle at top right, #002e1f 0%, #000000 70%);
   background-attachment: fixed;
 }
 
-/* --- 1. ARREGLO DE INPUTS (ADIÓS FONDO BLANCO) --- */
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--vaixs-bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 10px;
+
+  &:hover {
+    background: var(--vaixs-neon);
+  }
+}
+
+/* --- ANGULAR MATERIAL OVERRIDES --- */
+
+/* Input Fields */
 .mat-mdc-text-field-wrapper {
-  background-color: #2c2c2c !important; /* Fondo gris oscuro para inputs */
-  border-radius: 4px;
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease;
 }
 
-.mat-mdc-form-field-focus-overlay {
-  background-color: transparent !important; /* Quita el brillo blanco al hacer click */
+.mat-mdc-form-field.mat-focused .mat-mdc-text-field-wrapper {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 0 0 1px var(--vaixs-neon);
 }
 
-/* Texto dentro del input */
 .mat-mdc-input-element {
   color: white !important;
   caret-color: var(--vaixs-neon) !important;
 }
 
-/* Etiquetas (Labels) */
-.mat-mdc-form-field-label, .mat-mdc-floating-label {
+.mat-mdc-form-field-label,
+.mat-mdc-floating-label {
   color: var(--vaixs-text-muted) !important;
 }
 
@@ -42,46 +74,54 @@ body {
   color: var(--vaixs-neon) !important;
 }
 
-/* --- 2. ARREGLO DE MENÚS DESPLEGABLES (AUTOCOMPLETE) --- */
-.mat-mdc-autocomplete-panel, .mat-mdc-select-panel {
-  background-color: #1e1e1e !important;
-  border: 1px solid var(--vaixs-border);
-}
-
-.mat-mdc-option {
-  color: white !important;
-}
-
-.mat-mdc-option:hover, .mat-mdc-option.mdc-list-item--selected {
-  background-color: rgba(0, 230, 118, 0.15) !important;
-}
-
-.mat-mdc-option .mdc-list-item__primary-text {
-  color: white !important;
-}
-
-/* --- 3. ARREGLO DE MODALES Y TABLAS --- */
+/* Dialogs */
 .mat-mdc-dialog-surface {
-  background-color: #141414 !important; /* Fondo oscuro del modal */
-  color: white !important;
-  border: 1px solid var(--vaixs-border);
+  @extend .glass;
+  border-radius: 16px !important;
 }
 
 .mat-mdc-dialog-title {
-  color: var(--vaixs-neon) !important;
-  border-bottom: 1px solid #333;
-  margin-bottom: 20px !important;
+  @extend .text-neon;
+  font-size: 1.5rem !important;
+  font-weight: 800 !important;
+  padding: 24px 24px 0 !important;
 }
 
-/* Tablas transparentes */
-.mat-mdc-table { background: transparent !important; }
-.mat-mdc-header-cell { color: var(--vaixs-neon) !important; }
-.mat-mdc-cell { color: white !important; border-bottom-color: #333 !important; }
-.mat-mdc-row:hover { background: rgba(255, 255, 255, 0.05) !important; }
-
-/* --- 4. BOTONES --- */
+/* Buttons */
 .mat-mdc-raised-button.mat-accent {
   background-color: var(--vaixs-neon) !important;
-  color: black !important;
-  font-weight: bold;
+  color: #000 !important;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border-radius: 8px;
+
+  &:hover {
+    box-shadow: 0 0 15px var(--vaixs-neon-glow) !important;
+  }
+}
+
+.mat-mdc-button.mat-primary {
+  color: var(--vaixs-neon) !important;
+}
+
+/* Tables */
+.mat-mdc-table {
+  background: transparent !important;
+}
+
+.mat-mdc-header-row {
+  background: rgba(0, 0, 0, 0.4) !important;
+}
+
+.mat-mdc-header-cell {
+  @extend .text-neon;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  font-size: 0.75rem !important;
+  letter-spacing: 1px;
+}
+
+.mat-mdc-row:hover {
+  background: rgba(255, 255, 255, 0.03) !important;
 }

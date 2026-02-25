@@ -1,20 +1,23 @@
-<mat-toolbar color="primary" style="display: flex; gap: 10px; margin-bottom: 20px;">
-  <span style="font-weight: bold; margin-left: 10px;"> Vaixs ERP</span>
-  <span style="flex: 1 1 auto;"></span>
-  
-  <button mat-button routerLink="/inventario" routerLinkActive="active-link">
-    <mat-icon style="vertical-align: middle;">inventory_2</mat-icon> Inventario
-  </button>
-  
-  <button mat-button routerLink="/ventas" routerLinkActive="active-link">
-    <mat-icon style="vertical-align: middle;">shopping_cart</mat-icon> Ventas
-  </button>
+<ng-container *ngIf="authService.isLoggedIn(); else noAuth">
+  <mat-sidenav-container class="app-container">
+    <mat-sidenav #sidenav mode="side" opened class="sidebar" *ngIf="authService.isLoggedIn()">
+      <app-sidebar></app-sidebar>
+    </mat-sidenav>
 
-  <button mat-button routerLink="/historial" routerLinkActive="active-link">
-    <mat-icon style="vertical-align: middle;">history</mat-icon> Historial
-  </button>
-</mat-toolbar>
+    <mat-sidenav-content class="main-content">
+      <app-header (toggleSidebar)="sidenav.toggle()"></app-header>
 
-<main style="max-width: 1200px; margin: 0 auto; padding: 0 20px;">
-  <router-outlet></router-outlet>
-</main>
+      <main class="page-container">
+        <router-outlet></router-outlet>
+      </main>
+
+      <app-footer></app-footer>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</ng-container>
+
+<ng-template #noAuth>
+  <div class="auth-layout">
+    <router-outlet></router-outlet>
+  </div>
+</ng-template>

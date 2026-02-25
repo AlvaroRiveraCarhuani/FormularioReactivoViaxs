@@ -1,0 +1,54 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 80vh;
+}
+
+.login-card {
+  width: 100%;
+  max-width: 400px;
+  padding: 20px;
+  background-color: var(--vaixs-panel-bg) !important;
+  border: 1px solid var(--vaixs-border);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+}
+
+.login-card mat-card-title {
+  color: var(--vaixs-neon);
+  font-weight: bold;
+  text-align: center;
+  margin-bottom: 5px;
+}
+
+.login-card mat-card-subtitle {
+  text-align: center;
+  margin-bottom: 25px;
+  color: var(--vaixs-text-muted) !important;
+}
+
+.full-width {
+  width: 100%;
+}
+
+.login-btn {
+  margin-top: 20px;
+  height: 50px;
+}
+
+.register-link {
+  text-align: center;
+  padding: 15px;
+  color: var(--vaixs-text-muted);
+  font-size: 0.9rem;
+
+  a {
+    color: var(--vaixs-neon);
+    text-decoration: none;
+    font-weight: bold;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+}

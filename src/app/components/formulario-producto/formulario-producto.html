@@ -3,16 +3,16 @@
 </h2>
 
 <mat-dialog-content>
-  
+
   <form [formGroup]="formularioProducto" class="form-container">
-    
+
     <div class="fila-superior">
       <mat-form-field appearance="outline" class="input-nombre">
         <mat-label>Nombre del Producto</mat-label>
         <input type="text" matInput formControlName="nombre" [matAutocomplete]="auto" placeholder="Ej. Laptop Gamer...">
         <mat-autocomplete #auto="matAutocomplete">
           @for (opcion of sugerencias$ | async; track opcion) {
-            <mat-option [value]="opcion">{{ opcion }}</mat-option>
+          <mat-option [value]="opcion">{{ opcion }}</mat-option>
           }
         </mat-autocomplete>
       </mat-form-field>
@@ -21,7 +21,7 @@
         <mat-label>Categoría</mat-label>
         <mat-select formControlName="categoria">
           @for (cat of categorias; track cat) {
-            <mat-option [value]="cat">{{ cat }}</mat-option>
+          <mat-option [value]="cat">{{ cat }}</mat-option>
           }
         </mat-select>
       </mat-form-field>
@@ -40,58 +40,59 @@
       </mat-form-field>
 
       @if (!datos) {
-        <button mat-fab color="accent" (click)="agregarALista()" [disabled]="formularioProducto.invalid" matTooltip="Agregar a la cola">
-          <mat-icon>arrow_downward</mat-icon>
-        </button>
+      <button mat-fab color="accent" (click)="agregarALista()" [disabled]="formularioProducto.invalid"
+        matTooltip="Agregar a la cola">
+        <mat-icon>arrow_downward</mat-icon>
+      </button>
       }
     </div>
 
   </form>
 
   @if (!datos) {
-    <div class="lista-acumulados">
-      <h4 style="color: var(--vaixs-neon); margin: 10px 0;">
-        <mat-icon style="vertical-align: middle; font-size: 18px;">playlist_add_check</mat-icon>
-        Productos por registrar ({{ productosAcumulados.length }})
-      </h4>
+  <div class="lista-acumulados">
+    <h4 class="text-neon" style="margin: 10px 0;">
+      <mat-icon style="vertical-align: middle; font-size: 18px;">playlist_add_check</mat-icon>
+      Productos por registrar ({{ productosAcumulados.length }})
+    </h4>
 
-      <div class="items-container">
-        @for (prod of productosAcumulados; track $index) {
-          <div class="item-fila">
-            <div class="info">
-              <span class="nombre">{{ prod.nombre }}</span>
-              <small class="detalles">{{ prod.categoria }} | {{ prod.stock }} un. | Bs {{ prod.precio }}</small>
-            </div>
-            <button mat-icon-button color="warn" (click)="eliminarDeLista($index)">
-              <mat-icon>close</mat-icon>
-            </button>
-          </div>
-        }
-        @if (productosAcumulados.length === 0) {
-          <div class="vacio">
-            <small>La lista está vacía. Agrega productos arriba.</small>
-          </div>
-        }
+    <div class="items-container">
+      @for (prod of productosAcumulados; track $index) {
+      <div class="item-fila">
+        <div class="info">
+          <span class="nombre">{{ prod.nombre }}</span>
+          <small class="detalles">{{ prod.categoria }} | {{ prod.stock }} un. | Bs {{ prod.precio }}</small>
+        </div>
+        <button mat-icon-button color="warn" (click)="eliminarDeLista($index)">
+          <mat-icon>close</mat-icon>
+        </button>
       </div>
+      }
+      @if (productosAcumulados.length === 0) {
+      <div class="vacio">
+        <small>La lista está vacía. Agrega productos arriba.</small>
+      </div>
+      }
     </div>
+  </div>
   }
 
 </mat-dialog-content>
 
 <mat-dialog-actions align="end" class="acciones">
   <button mat-button (click)="cancelar()" style="color: #aaa;">Cancelar</button>
-  
-<button mat-raised-button color="primary" 
-    [disabled]="(!datos && productosAcumulados.length === 0 && formularioProducto.invalid) || (datos && formularioProducto.invalid)" 
+
+  <button mat-raised-button color="primary"
+    [disabled]="(!datos && productosAcumulados.length === 0 && formularioProducto.invalid) || (datos && formularioProducto.invalid)"
     (click)="registrarTodo()">
-    
+
     @if (datos) {
-      Actualizar Producto
+    Actualizar Producto
     } @else {
-      <span>
-        <mat-icon style="vertical-align: middle; font-size: 18px;">save_all</mat-icon> 
-        Registrar {{ productosAcumulados.length + (formularioProducto.valid ? 1 : 0) }} Productos
-      </span>
+    <span>
+      <mat-icon style="vertical-align: middle; font-size: 18px;">save_all</mat-icon>
+      Registrar {{ productosAcumulados.length + (formularioProducto.valid ? 1 : 0) }} Productos
+    </span>
     }
   </button>
 </mat-dialog-actions>

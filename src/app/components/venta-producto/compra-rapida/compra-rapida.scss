@@ -2,53 +2,78 @@
 .form-agregar-producto {
   display: flex;
   gap: 10px;
-  align-items: flex-start; /* Alinea arriba para que no salten */
+  align-items: flex-start;
+  /* Alinea arriba para que no salten */
   margin-bottom: 15px;
 
   .input-producto {
-    flex: 3; /* Ocupa más espacio */
+    flex: 3;
+    /* Ocupa más espacio */
   }
 
   .input-cantidad {
-    flex: 1; /* Ocupa menos espacio */
+    flex: 1;
+    /* Ocupa menos espacio */
     max-width: 100px;
   }
 
   button {
-    margin-top: 8px; /* Ajuste para alinear con los inputs */
+    margin-top: 8px;
+    /* Ajuste para alinear con los inputs */
   }
 }
 
 /* Contenedor del Carrito */
 .carrito-container {
-  max-height: 200px;
+  border-radius: 12px;
+  max-height: 250px;
   overflow-y: auto;
-  background: rgba(0,0,0,0.2); /* Fondo sutilmente más oscuro */
-  border-radius: 4px;
-  margin-bottom: 20px;
-  border: 1px solid #333;
+  margin-bottom: 24px;
 }
 
 .carrito-vacio {
-  padding: 30px;
+  padding: 40px;
   text-align: center;
-  color: #777;
+  color: var(--vaixs-text-muted);
+  font-style: italic;
 }
 
 .item-carrito {
   display: flex;
   justify-content: space-between;
-  padding: 10px;
-  border-bottom: 1px solid #333;
+  align-items: center;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--vaixs-border);
+  transition: background 0.2s;
 
-  .nombre { color: white; font-weight: 500; }
-  .detalle { color: #aaa; font-size: 0.9rem; }
-  
+  &:hover {
+    background: rgba(255, 255, 255, 0.03);
+  }
+
+  &:last-child {
+    border-bottom: none;
+  }
+
+  .info {
+    .nombre {
+      font-weight: 700;
+      color: white;
+    }
+
+    .detalle {
+      font-size: 0.8rem;
+      color: var(--vaixs-text-muted);
+    }
+  }
+
   .acciones {
     display: flex;
     align-items: center;
-    gap: 10px;
-    .subtotal { color: var(--vaixs-neon); font-weight: bold; }
+    gap: 12px;
+
+    .subtotal {
+      font-weight: 800;
+    }
   }
 }
 
@@ -60,10 +85,23 @@
   .total-row {
     display: flex;
     justify-content: space-between;
-    font-size: 1.2rem;
-    margin-bottom: 15px;
-    color: white;
+    align-items: center;
+    padding: 16px 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    background: rgba(0, 230, 118, 0.05) !important;
+    border-color: var(--vaixs-neon) !important;
 
-    .monto { color: var(--vaixs-neon); font-weight: bold; font-size: 1.4rem; }
+    span:first-child {
+      font-weight: 700;
+      color: var(--vaixs-text-muted);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+
+    .monto {
+      font-size: 1.5rem;
+      font-weight: 900;
+    }
   }
 }

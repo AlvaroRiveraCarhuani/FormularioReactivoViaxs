@@ -66,6 +66,12 @@ export class ServicioProducto {
     return of(this.catalogoBase.filter(p => p.toLowerCase().includes(filtro)));
   }
 
+  private generarId(): number {
+    const productos = this.fuenteProductos.value;
+    const maxId = productos.length > 0 ? Math.max(...productos.map(p => p.id)) : 0;
+    return Math.max(Date.now(), maxId + 1);
+  }
+
   private actualizarProductos(nuevos: Producto[]) {
     this.fuenteProductos.next(nuevos);
     localStorage.setItem('productosVaixs', JSON.stringify(nuevos));
@@ -73,7 +79,14 @@ export class ServicioProducto {
 
   agregar(producto: Producto) {
     const actuales = this.fuenteProductos.value;
-    this.actualizarProductos([...actuales, { ...producto, id: Date.now() }]);
+    this.actualizarProductos([...actuales, { ...producto, id: this.generarId() }]);
+  }
+
+  agregarMuchos(nuevosProductos: Producto[]) {
+    const actuales = this.fuenteProductos.value;
+    let baseId = this.generarId();
+    const paraAgregar = nuevosProductos.map(p => ({ ...p, id: baseId++ }));
+    this.actualizarProductos([...actuales, ...paraAgregar]);
   }
 
   editar(id: number, productoEditado: Producto) {

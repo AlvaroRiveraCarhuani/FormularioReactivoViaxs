@@ -1,7 +1,5 @@
 .contenedor-ventas {
-  padding: 30px 20px;
-  max-width: 1200px;
-  margin: 0 auto;
+  animation: fadeIn 0.5s ease-out;
 }
 
 header {
@@ -9,122 +7,104 @@ header {
   justify-content: space-between;
   align-items: center;
   margin-bottom: 40px;
-  flex-wrap: wrap;
   gap: 20px;
 
   h2 {
-    font-size: 2.2rem;
-    font-weight: 700;
+    font-size: 2.5rem;
     margin: 0;
-    background: linear-gradient(to right, #fff, #bbb);
-    -webkit-background-clip: text;
-    background-clip: text;
-    -webkit-text-fill-color: transparent; /* Efecto texto metálico */
   }
 
   .zona-filtros {
     display: flex;
     align-items: center;
     gap: 20px;
-    flex-wrap: wrap;
 
-    /* Arreglo visual del selector */
     .selector-categoria {
-      width: 250px; 
-      font-size: 0.95rem;
+      width: 250px;
     }
   }
 
-  /* Botón Compra Rápida Brillante */
-  button {
-    height: 50px;
-    padding: 0 30px;
-    font-size: 1rem;
-    box-shadow: 0 0 15px rgba(0, 230, 118, 0.4); /* Resplandor verde */
-    transition: transform 0.2s;
-    
-    &:hover {
-      transform: scale(1.05);
-      box-shadow: 0 0 25px rgba(0, 230, 118, 0.6);
-    }
+  .compra-btn {
+    height: 54px;
+    padding: 0 32px;
+    font-size: 0.9rem;
+    font-weight: 800;
   }
 }
 
 .grid-productos {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 25px;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
 }
 
-/* --- TARJETA DARK MODE --- */
 .tarjeta-producto {
-  background: rgba(30, 30, 30, 0.6) !important; /* Semi transparente */
-  backdrop-filter: blur(10px); /* Efecto vidrio */
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 16px;
-  transition: all 0.3s ease;
+  border-radius: 20px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  overflow: hidden;
+  position: relative;
 
   &:hover {
-    transform: translateY(-8px);
-    border-color: var(--vaixs-green-neon);
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    
-    .precio {
-      text-shadow: 0 0 10px rgba(0, 230, 118, 0.5);
+    transform: translateY(-12px) scale(1.02);
+    border-color: var(--vaixs-neon) !important;
+    box-shadow: 0 15px 40px rgba(0, 230, 118, 0.2) !important;
+
+    .btn-agregar {
+      background: var(--vaixs-neon) !important;
+      color: #000 !important;
     }
   }
 
   .card-header {
     display: flex;
     justify-content: space-between;
-    padding: 15px 15px 5px;
-
-    .categoria {
-      background: rgba(255, 255, 255, 0.1);
-      color: #ccc;
-      padding: 4px 10px;
-      font-size: 0.7rem;
-      border-radius: 4px;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-    }
+    padding: 20px 20px 10px;
 
     .stock {
       font-size: 0.8rem;
-      font-weight: bold;
-      color: var(--vaixs-green-neon);
-      
-      &.bajo { color: #ffab00; }
-      &.agotado { color: #ff1744; }
+      font-weight: 800;
+      color: var(--vaixs-neon);
+
+      &.bajo {
+        color: #ffab00;
+      }
+
+      &.agotado {
+        color: #ff1744;
+      }
     }
   }
 
   mat-card-content {
-    padding: 10px 15px 20px;
+    padding: 10px 20px 24px;
 
     h3 {
       color: white;
-      font-size: 1.2rem;
+      font-size: 1.3rem;
       margin: 10px 0;
-      font-weight: 500;
+      font-weight: 700;
+      line-height: 1.3;
     }
 
     .precio {
-      font-size: 1.8rem;
-      font-weight: 700;
-      color: var(--vaixs-green-neon);
-      margin: 0;
+      font-size: 2rem;
+      font-weight: 800;
+      transition: all 0.3s ease;
+      margin: 10px 0 0;
     }
   }
 
   mat-card-actions {
-    padding: 0 15px 20px;
-    button {
-      border-radius: 8px;
-      border-width: 2px;
-      &:hover {
-        background: rgba(0, 230, 118, 0.1);
-      }
+    padding: 0 20px 20px;
+
+    .btn-agregar {
+      width: 100%;
+      height: 44px;
+      border-radius: 10px;
+      border: 1px solid var(--vaixs-neon);
+      color: var(--vaixs-neon);
+      font-weight: 700;
+      transition: all 0.3s ease;
     }
   }
 }
@@ -132,7 +112,31 @@ header {
 .vacio {
   grid-column: 1 / -1;
   text-align: center;
-  color: #555;
-  background: transparent;
-  mat-icon { font-size: 60px; width: 60px; height: 60px; opacity: 0.5; }
-}   
+  padding: 100px;
+  border-radius: 20px;
+
+  mat-icon {
+    font-size: 80px;
+    width: 80px;
+    height: 80px;
+    color: var(--vaixs-text-muted);
+    margin-bottom: 20px;
+  }
+
+  p {
+    font-size: 1.2rem;
+    color: var(--vaixs-text-muted);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

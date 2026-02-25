@@ -1,0 +1,41 @@
+.app-container {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar {
+    width: 260px;
+}
+
+.main-content {
+    display: flex;
+    flex-direction: column;
+}
+
+.page-container {
+    flex: 1;
+    padding: 30px;
+    max-width: 1400px;
+    width: 100%;
+    margin: 0 auto;
+    box-sizing: border-box;
+}
+
+.auth-layout {
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: radial-gradient(circle at top right, #002e1f 0%, #000000 70%);
+}
+
+@media (max-width: 960px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    .page-container {
+        padding: 15px;
+    }
+}

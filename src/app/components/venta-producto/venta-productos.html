@@ -1,50 +1,50 @@
 <div class="contenedor-ventas">
   <header>
     <div class="zona-filtros">
-      <h2>Catálogo Vaixs</h2>
-      
+      <h2 class="text-neon">Catálogo Vaixs</h2>
+
       <mat-form-field appearance="outline" class="selector-categoria">
         <mat-label>Filtrar por Categoría</mat-label>
         <mat-select [formControl]="controlCategoria">
           <mat-option value="">Todas</mat-option> @for (cat of categorias; track cat) {
-            <mat-option [value]="cat">{{ cat }}</mat-option>
+          <mat-option [value]="cat">{{ cat }}</mat-option>
           }
         </mat-select>
         <mat-icon matSuffix style="color: var(--vaixs-green-neon);">filter_list</mat-icon>
       </mat-form-field>
     </div>
 
-    <button mat-raised-button color="accent" (click)="abrirCompraRapida()">
+    <button mat-raised-button color="accent" (click)="abrirCompraRapida()" class="compra-btn">
       <mat-icon>shopping_cart</mat-icon> &nbsp; COMPRA RÁPIDA
     </button>
   </header>
 
   <div class="grid-productos">
     @for (prod of productosFiltrados$ | async; track prod.id) {
-      <mat-card class="tarjeta-producto">
-        <div class="card-header">
-          <span class="categoria">{{ prod.categoria }}</span>
-          <span class="stock" [class.bajo]="prod.stock < 5 && prod.stock > 0" [class.agotado]="prod.stock === 0">
-            {{ prod.stock === 0 ? 'AGOTADO' : prod.stock + ' un.' }}
-          </span>
-        </div>
-        
-        <mat-card-content>
-          <h3 [title]="prod.nombre">{{ prod.nombre }}</h3>
-          <p class="precio">Bs {{ prod.precio }}</p>
-        </mat-card-content>
-
-        <mat-card-actions align="end">
-          <button mat-stroked-button (click)="agregarAlCarrito(prod)" [disabled]="prod.stock === 0">
-            + AGREGAR
-          </button>
-        </mat-card-actions>
-      </mat-card>
-    } @empty {
-      <div class="vacio">
-        <mat-icon>search_off</mat-icon>
-        <p>No hay productos disponibles en esta categoría.</p>
+    <mat-card class="tarjeta-producto glass">
+      <div class="card-header">
+        <span class="categoria badge-categoria">{{ prod.categoria }}</span>
+        <span class="stock" [class.bajo]="prod.stock < 5 && prod.stock > 0" [class.agotado]="prod.stock === 0">
+          {{ prod.stock === 0 ? 'AGOTADO' : prod.stock + ' un.' }}
+        </span>
       </div>
+
+      <mat-card-content>
+        <h3 [title]="prod.nombre">{{ prod.nombre }}</h3>
+        <p class="precio">Bs {{ prod.precio }}</p>
+      </mat-card-content>
+
+      <mat-card-actions align="end">
+        <button mat-button class="btn-agregar" (click)="agregarAlCarrito(prod)" [disabled]="prod.stock === 0">
+          + AGREGAR AL CARRITO
+        </button>
+      </mat-card-actions>
+    </mat-card>
+    } @empty {
+    <div class="vacio glass">
+      <mat-icon>search_off</mat-icon>
+      <p>No hay productos disponibles en esta categoría.</p>
+    </div>
     }
   </div>
 </div>
