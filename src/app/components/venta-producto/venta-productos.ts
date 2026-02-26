@@ -10,14 +10,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatSelectModule } from '@angular/material/select';
+import { MatChipsModule } from '@angular/material/chips';
 import { CompraRapidaComponent } from './compra-rapida/compra-rapida';
 
 @Component({
   selector: 'app-venta-productos',
   standalone: true,
   imports: [
-    CommonModule, ReactiveFormsModule, MatCardModule, MatButtonModule, 
-    MatIconModule, MatDialogModule, MatFormFieldModule, MatSelectModule
+    CommonModule, ReactiveFormsModule, MatCardModule, MatButtonModule,
+    MatIconModule, MatDialogModule, MatFormFieldModule, MatSelectModule, MatChipsModule
   ],
   templateUrl: './venta-productos.html',
   styleUrls: ['./venta-productos.scss'] // <--- ¡OJO AQUÍ! Debe coincidir exactamente
@@ -40,7 +41,7 @@ export class VentaProductosComponent implements OnInit {
     );
   }
 
-  ngOnInit(): void {}
+  ngOnInit(): void { }
 
   abrirCompraRapida() {
     this.dialog.open(CompraRapidaComponent, { width: '600px', maxHeight: '90vh', disableClose: true });

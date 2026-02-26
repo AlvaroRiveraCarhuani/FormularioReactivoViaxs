@@ -86,9 +86,15 @@ export class ComponenteFormularioProducto implements OnInit {
 
   // 3. Guardar todo de golpe
   registrarTodo(): void {
-    // Si hay algo en el formulario sin agregar a la lista, lo agregamos automáticamente
+    // Si hay algo en el formulario que sea válido y no se haya agregado manualmente, lo intentamos agregar
     if (this.formularioProducto.valid && this.formularioProducto.dirty) {
-      this.productosAcumulados.push(this.formularioProducto.value);
+      const yaAgregado = this.productosAcumulados.some(p =>
+        p.nombre === this.formularioProducto.value.nombre &&
+        p.precio === this.formularioProducto.value.precio
+      );
+      if (!yaAgregado) {
+        this.productosAcumulados.push(this.formularioProducto.value);
+      }
     }
 
     if (this.datos) {

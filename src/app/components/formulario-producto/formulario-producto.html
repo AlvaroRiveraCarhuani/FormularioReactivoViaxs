@@ -9,10 +9,17 @@
     <div class="fila-superior">
       <mat-form-field appearance="outline" class="input-nombre">
         <mat-label>Nombre del Producto</mat-label>
-        <input type="text" matInput formControlName="nombre" [matAutocomplete]="auto" placeholder="Ej. Laptop Gamer...">
+        <input type="text" matInput formControlName="nombre" [matAutocomplete]="auto"
+          placeholder="Nombre (mín. 3 letras)">
+        <mat-error *ngIf="formularioProducto.get('nombre')?.hasError('required')">El nombre es obligatorio</mat-error>
+        <mat-error *ngIf="formularioProducto.get('nombre')?.hasError('minlength')">Mínimo 3 caracteres</mat-error>
         <mat-autocomplete #auto="matAutocomplete">
           @for (opcion of sugerencias$ | async; track opcion) {
-          <mat-option [value]="opcion">{{ opcion }}</mat-option>
+          <mat-option [value]="opcion">
+            <mat-icon
+              style="font-size: 16px; width: 16px; height: 16px; margin-right: 8px; vertical-align: middle; color: var(--vaixs-neon);">history</mat-icon>
+            <span>{{ opcion }}</span>
+          </mat-option>
           }
         </mat-autocomplete>
       </mat-form-field>
@@ -24,19 +31,25 @@
           <mat-option [value]="cat">{{ cat }}</mat-option>
           }
         </mat-select>
+        <mat-error *ngIf="formularioProducto.get('categoria')?.hasError('required')">Selecciona una
+          categoría</mat-error>
       </mat-form-field>
     </div>
 
     <div class="fila-inferior">
       <mat-form-field appearance="outline">
         <mat-label>Precio (Bs)</mat-label>
-        <input matInput type="number" formControlName="precio">
+        <input matInput type="number" formControlName="precio" min="1">
         <span matTextPrefix>Bs&nbsp;</span>
+        <mat-error *ngIf="formularioProducto.get('precio')?.hasError('required')">El precio es obligatorio</mat-error>
+        <mat-error *ngIf="formularioProducto.get('precio')?.hasError('min')">Mínimo Bs 1</mat-error>
       </mat-form-field>
 
       <mat-form-field appearance="outline">
         <mat-label>Stock Inicial</mat-label>
-        <input matInput type="number" formControlName="stock">
+        <input matInput type="number" formControlName="stock" min="0">
+        <mat-error *ngIf="formularioProducto.get('stock')?.hasError('required')">El stock es obligatorio</mat-error>
+        <mat-error *ngIf="formularioProducto.get('stock')?.hasError('min')">Mínimo 0</mat-error>
       </mat-form-field>
 
       @if (!datos) {
@@ -83,7 +96,7 @@
   <button mat-button (click)="cancelar()" style="color: #aaa;">Cancelar</button>
 
   <button mat-raised-button color="primary"
-    [disabled]="(!datos && productosAcumulados.length === 0 && formularioProducto.invalid) || (datos && formularioProducto.invalid)"
+    [disabled]="(datos && formularioProducto.invalid) || (!datos && productosAcumulados.length === 0 && formularioProducto.invalid) || (!datos && formularioProducto.dirty && formularioProducto.invalid)"
     (click)="registrarTodo()">
 
     @if (datos) {

@@ -125,3 +125,54 @@ body {
 .mat-mdc-row:hover {
   background: rgba(255, 255, 255, 0.03) !important;
 }
+
+.mat-mdc-cell {
+  color: #e0e0e0 !important;
+  font-size: 0.9rem !important;
+  border-bottom-color: var(--vaixs-border) !important;
+}
+
+.mat-mdc-header-cell {
+  background: rgba(0, 0, 0, 0.6) !important;
+}
+
+/* --- OVERLAYS (AUTOCOMPLETE / SELECT) --- */
+.mat-mdc-autocomplete-panel,
+.mat-mdc-select-panel {
+  background: rgba(20, 20, 20, 0.95) !important;
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 12px !important;
+  margin-top: 5px !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8) !important;
+
+  .mat-mdc-option {
+    min-height: 48px !important;
+    padding: 0 16px !important;
+
+    &:hover:not(.mdc-list-item--disabled) {
+      background: rgba(0, 230, 118, 0.05) !important;
+    }
+
+    &.mdc-list-item--selected:not(.mdc-list-item--disabled) {
+      background: rgba(0, 230, 118, 0.1) !important;
+
+      .mdc-list-item__primary-text {
+        color: var(--vaixs-neon) !important;
+        font-weight: 700;
+      }
+    }
+
+    .mdc-list-item__primary-text {
+      color: #fff !important;
+      font-size: 0.9rem !important;
+      font-family: 'Outfit', sans-serif !important;
+    }
+  }
+}
+
+/* Scrollbar para paneles */
+.mat-mdc-autocomplete-panel::-webkit-scrollbar,
+.mat-mdc-select-panel::-webkit-scrollbar {
+  width: 6px;
+}

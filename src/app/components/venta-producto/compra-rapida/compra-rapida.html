@@ -3,20 +3,23 @@
 <mat-dialog-content>
   <form [formGroup]="formBusqueda" class="form-agregar-producto">
 
-    <mat-form-field appearance="fill" class="input-producto">
+    <mat-form-field appearance="outline" class="input-producto">
       <mat-label>Buscar producto...</mat-label>
       <input type="text" matInput formControlName="productoSeleccionado" [matAutocomplete]="auto">
       <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
         @for (prod of productosFiltrados$ | async; track prod.id) {
         <mat-option [value]="prod">
-          <span style="font-weight: bold;">{{ prod.nombre }}</span>
-          <small style="color: #aaa;"> (Stock: {{ prod.stock }})</small>
+          <div class="option-row">
+            <span class="option-name">{{ prod.nombre }}</span>
+            <span class="badge-categoria" style="font-size: 0.6rem; transform: scale(0.9);">Stock: {{ prod.stock
+              }}</span>
+          </div>
         </mat-option>
         }
       </mat-autocomplete>
     </mat-form-field>
 
-    <mat-form-field appearance="fill" class="input-cantidad">
+    <mat-form-field appearance="outline" class="input-cantidad">
       <mat-label>Cant.</mat-label>
       <input type="number" matInput formControlName="cantidad" min="1">
     </mat-form-field>
@@ -55,7 +58,7 @@
       <span class="monto text-neon">Bs {{ totalGeneral }}</span>
     </div>
 
-    <mat-form-field appearance="fill" style="width: 100%;">
+    <mat-form-field appearance="outline" style="width: 100%;">
       <mat-label>Nombre del Cliente / Razón Social</mat-label>
       <input matInput formControlName="nombreCliente" placeholder="Ej. Juan Pérez">
       <mat-icon matSuffix style="color: var(--vaixs-neon);">person</mat-icon>

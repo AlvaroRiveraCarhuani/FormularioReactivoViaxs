@@ -16,11 +16,45 @@ header {
 
   .zona-filtros {
     display: flex;
-    align-items: center;
-    gap: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
 
-    .selector-categoria {
-      width: 250px;
+    .filtro-categoria-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      .filtro-label {
+        font-size: 0.85rem;
+        color: var(--vaixs-text-muted);
+        font-weight: 500;
+        letter-spacing: 0.5px;
+      }
+
+      .categorias-chips {
+        ::v-deep .mdc-evolution-chip-set__chips {
+          gap: 8px;
+        }
+
+        ::v-deep .mat-mdc-chip-option {
+          background: rgba(255, 255, 255, 0.05) !important;
+          --mdc-chip-label-text-color: var(--vaixs-text-muted);
+          --mdc-chip-selected-label-text-color: #000;
+          --mdc-chip-elevated-container-color: rgba(255, 255, 255, 0.05);
+          --mdc-chip-selected-container-color: var(--vaixs-neon);
+          border: 1px solid var(--vaixs-border) !important;
+
+          &.mat-mdc-chip-selected {
+            border-color: var(--vaixs-neon) !important;
+            font-weight: 700;
+          }
+
+          .mdc-evolution-chip__text-label {
+            font-size: 0.8rem;
+          }
+        }
+      }
     }
   }
 
