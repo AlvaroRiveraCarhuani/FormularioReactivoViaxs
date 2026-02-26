@@ -1,12 +1,178 @@
-@use '@angular/material' as mat;
-@import '@angular/material/prebuilt-themes/azure-blue.css';
+@use 'shared' as *;
 
-html, body { 
-  height: 100%; 
+/* --- TEMA DARK MODE VAIXS (PREMIUM) --- */
+:root {
+  --vaixs-bg-dark: #050505;
+  --vaixs-panel-bg: rgba(30, 30, 30, 0.7);
+  --vaixs-neon: #00e676;
+  /* Verde Neón */
+  --vaixs-neon-glow: rgba(0, 230, 118, 0.4);
+  --vaixs-border: rgba(255, 255, 255, 0.1);
+  --vaixs-text-main: #ffffff;
+  --vaixs-text-muted: #b0b0b0;
+  --vaixs-accent: #00e676;
 }
 
-body { 
-  margin: 0; 
-  font-family: Roboto, "Helvetica Neue", sans-serif; 
-  background-color: #f5f5f5;
+html,
+body {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+  /* El scroll lo maneja el sidenav-content */
+}
+
+body {
+  font-family: 'Outfit', 'Roboto', sans-serif;
+  color: var(--vaixs-text-main);
+  background: radial-gradient(circle at top right, #002e1f 0%, #000000 70%);
+  background-attachment: fixed;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--vaixs-bg-dark);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 10px;
+
+  &:hover {
+    background: var(--vaixs-neon);
+  }
+}
+
+/* --- ANGULAR MATERIAL OVERRIDES --- */
+
+/* Input Fields */
+.mat-mdc-text-field-wrapper {
+  background-color: rgba(255, 255, 255, 0.05) !important;
+  border-radius: 8px !important;
+  transition: all 0.3s ease;
+}
+
+.mat-mdc-form-field.mat-focused .mat-mdc-text-field-wrapper {
+  background-color: rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 0 0 1px var(--vaixs-neon);
+}
+
+.mat-mdc-input-element {
+  color: white !important;
+  caret-color: var(--vaixs-neon) !important;
+}
+
+.mat-mdc-form-field-label,
+.mat-mdc-floating-label {
+  color: var(--vaixs-text-muted) !important;
+}
+
+.mat-mdc-form-field.mat-focused .mat-mdc-floating-label {
+  color: var(--vaixs-neon) !important;
+}
+
+/* Dialogs */
+.mat-mdc-dialog-surface {
+  @extend .glass;
+  border-radius: 16px !important;
+}
+
+.mat-mdc-dialog-title {
+  @extend .text-neon;
+  font-size: 1.5rem !important;
+  font-weight: 800 !important;
+  padding: 24px 24px 0 !important;
+}
+
+/* Buttons */
+.mat-mdc-raised-button.mat-accent {
+  background-color: var(--vaixs-neon) !important;
+  color: #000 !important;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border-radius: 8px;
+
+  &:hover {
+    box-shadow: 0 0 15px var(--vaixs-neon-glow) !important;
+  }
+}
+
+.mat-mdc-button.mat-primary {
+  color: var(--vaixs-neon) !important;
+}
+
+/* Tables */
+.mat-mdc-table {
+  background: transparent !important;
+}
+
+.mat-mdc-header-row {
+  background: rgba(0, 0, 0, 0.4) !important;
+}
+
+.mat-mdc-header-cell {
+  @extend .text-neon;
+  font-weight: 700 !important;
+  text-transform: uppercase;
+  font-size: 0.75rem !important;
+  letter-spacing: 1px;
+}
+
+.mat-mdc-row:hover {
+  background: rgba(255, 255, 255, 0.03) !important;
+}
+
+.mat-mdc-cell {
+  color: #e0e0e0 !important;
+  font-size: 0.9rem !important;
+  border-bottom-color: var(--vaixs-border) !important;
+}
+
+.mat-mdc-header-cell {
+  background: rgba(0, 0, 0, 0.6) !important;
+}
+
+/* --- OVERLAYS (AUTOCOMPLETE / SELECT) --- */
+.mat-mdc-autocomplete-panel,
+.mat-mdc-select-panel {
+  background: rgba(20, 20, 20, 0.95) !important;
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-radius: 12px !important;
+  margin-top: 5px !important;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8) !important;
+
+  .mat-mdc-option {
+    min-height: 48px !important;
+    padding: 0 16px !important;
+
+    &:hover:not(.mdc-list-item--disabled) {
+      background: rgba(0, 230, 118, 0.05) !important;
+    }
+
+    &.mdc-list-item--selected:not(.mdc-list-item--disabled) {
+      background: rgba(0, 230, 118, 0.1) !important;
+
+      .mdc-list-item__primary-text {
+        color: var(--vaixs-neon) !important;
+        font-weight: 700;
+      }
+    }
+
+    .mdc-list-item__primary-text {
+      color: #fff !important;
+      font-size: 0.9rem !important;
+      font-family: 'Outfit', sans-serif !important;
+    }
+  }
+}
+
+/* Scrollbar para paneles */
+.mat-mdc-autocomplete-panel::-webkit-scrollbar,
+.mat-mdc-select-panel::-webkit-scrollbar {
+  width: 6px;
 }

@@ -1,0 +1,105 @@
+.login-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 80vh;
+}
+
+.login-card {
+    width: 100%;
+    max-width: 400px;
+    padding: 20px;
+    background-color: var(--vaixs-panel-bg) !important;
+    border: 1px solid var(--vaixs-border);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5) !important;
+}
+
+.login-card mat-card-title {
+    color: var(--vaixs-neon);
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 5px;
+}
+
+.login-card mat-card-subtitle {
+    text-align: center;
+    margin-bottom: 25px;
+    color: var(--vaixs-text-muted) !important;
+}
+
+.full-width {
+    width: 100%;
+}
+
+.role-selection-container {
+    margin: 15px 0 25px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+
+    .role-label {
+        font-size: 0.85rem;
+        color: var(--vaixs-text-muted);
+        font-weight: 500;
+        margin-left: 5px;
+    }
+
+    .role-toggle-group {
+        width: 100%;
+        display: flex;
+        border: 1px solid var(--vaixs-border);
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.03);
+        overflow: hidden;
+
+        mat-button-toggle {
+            flex: 1;
+            color: var(--vaixs-text-muted);
+            border: none;
+            transition: all 0.3s ease;
+
+            &.mat-button-toggle-checked {
+                background: var(--vaixs-neon);
+                color: #000;
+                font-weight: 700;
+
+                mat-icon {
+                    color: #000;
+                }
+            }
+
+            &:not(.mat-button-toggle-checked):hover {
+                background: rgba(255, 255, 255, 0.05);
+            }
+
+            mat-icon {
+                font-size: 18px;
+                vertical-align: middle;
+                margin-right: 4px;
+                transform: translateY(-2px);
+            }
+        }
+    }
+}
+
+.login-btn {
+    margin-top: 20px;
+    height: 50px;
+}
+
+.register-link {
+    text-align: center;
+    padding: 15px;
+    color: var(--vaixs-text-muted);
+    font-size: 0.9rem;
+
+    a {
+        color: var(--vaixs-neon);
+        text-decoration: none;
+        font-weight: bold;
+
+        &:hover {
+            text-decoration: underline;
+        }
+    }
+}

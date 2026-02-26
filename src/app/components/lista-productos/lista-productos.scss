@@ -1,0 +1,86 @@
+.contenedor-inventario {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  animation: fadeIn 0.5s ease-out;
+}
+
+.header-seccion {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+
+  h2 {
+    font-size: 1.8rem;
+    margin: 0;
+  }
+}
+
+.buscador-full {
+  width: 100%;
+
+  ::v-deep .mat-mdc-text-field-wrapper {
+    background: rgba(255, 255, 255, 0.03) !important;
+  }
+}
+
+.contenedor-tabla {
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+/* --- ESTILOS INTERNOS --- */
+.badge-categoria {
+  background: rgba(0, 230, 118, 0.1);
+  color: var(--vaixs-neon);
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  border: 1px solid rgba(0, 230, 118, 0.3);
+  text-transform: uppercase;
+}
+
+.stock-critico {
+  color: #ff5252 !important;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
+  &::before {
+    content: 'warning';
+    font-family: 'Material Icons';
+    font-size: 14px;
+  }
+}
+
+.vacio-container {
+  padding: 60px;
+  text-align: center;
+  border-radius: 12px;
+
+  p {
+    color: var(--vaixs-text-muted);
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+  }
+}
+
+.mat-column-acciones {
+  width: 120px;
+  text-align: right;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

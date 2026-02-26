@@ -1,0 +1,176 @@
+.contenedor-ventas {
+  animation: fadeIn 0.5s ease-out;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 40px;
+  gap: 20px;
+
+  h2 {
+    font-size: 2.5rem;
+    margin: 0;
+  }
+
+  .zona-filtros {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 15px;
+
+    .filtro-categoria-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+
+      .filtro-label {
+        font-size: 0.85rem;
+        color: var(--vaixs-text-muted);
+        font-weight: 500;
+        letter-spacing: 0.5px;
+      }
+
+      .categorias-chips {
+        ::v-deep .mdc-evolution-chip-set__chips {
+          gap: 8px;
+        }
+
+        ::v-deep .mat-mdc-chip-option {
+          background: rgba(255, 255, 255, 0.05) !important;
+          --mdc-chip-label-text-color: var(--vaixs-text-muted);
+          --mdc-chip-selected-label-text-color: #000;
+          --mdc-chip-elevated-container-color: rgba(255, 255, 255, 0.05);
+          --mdc-chip-selected-container-color: var(--vaixs-neon);
+          border: 1px solid var(--vaixs-border) !important;
+
+          &.mat-mdc-chip-selected {
+            border-color: var(--vaixs-neon) !important;
+            font-weight: 700;
+          }
+
+          .mdc-evolution-chip__text-label {
+            font-size: 0.8rem;
+          }
+        }
+      }
+    }
+  }
+
+  .compra-btn {
+    height: 54px;
+    padding: 0 32px;
+    font-size: 0.9rem;
+    font-weight: 800;
+  }
+}
+
+.grid-productos {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 30px;
+}
+
+.tarjeta-producto {
+  border-radius: 20px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  overflow: hidden;
+  position: relative;
+
+  &:hover {
+    transform: translateY(-12px) scale(1.02);
+    border-color: var(--vaixs-neon) !important;
+    box-shadow: 0 15px 40px rgba(0, 230, 118, 0.2) !important;
+
+    .btn-agregar {
+      background: var(--vaixs-neon) !important;
+      color: #000 !important;
+    }
+  }
+
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px 20px 10px;
+
+    .stock {
+      font-size: 0.8rem;
+      font-weight: 800;
+      color: var(--vaixs-neon);
+
+      &.bajo {
+        color: #ffab00;
+      }
+
+      &.agotado {
+        color: #ff1744;
+      }
+    }
+  }
+
+  mat-card-content {
+    padding: 10px 20px 24px;
+
+    h3 {
+      color: white;
+      font-size: 1.3rem;
+      margin: 10px 0;
+      font-weight: 700;
+      line-height: 1.3;
+    }
+
+    .precio {
+      font-size: 2rem;
+      font-weight: 800;
+      transition: all 0.3s ease;
+      margin: 10px 0 0;
+    }
+  }
+
+  mat-card-actions {
+    padding: 0 20px 20px;
+
+    .btn-agregar {
+      width: 100%;
+      height: 44px;
+      border-radius: 10px;
+      border: 1px solid var(--vaixs-neon);
+      color: var(--vaixs-neon);
+      font-weight: 700;
+      transition: all 0.3s ease;
+    }
+  }
+}
+
+.vacio {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 100px;
+  border-radius: 20px;
+
+  mat-icon {
+    font-size: 80px;
+    width: 80px;
+    height: 80px;
+    color: var(--vaixs-text-muted);
+    margin-bottom: 20px;
+  }
+
+  p {
+    font-size: 1.2rem;
+    color: var(--vaixs-text-muted);
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

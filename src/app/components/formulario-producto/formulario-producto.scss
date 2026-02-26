@@ -1,0 +1,106 @@
+/* Layout del Formulario */
+.form-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  padding-bottom: 10px;
+  border-bottom: 1px dashed #444;
+}
+
+.fila-superior {
+  display: flex;
+  gap: 10px;
+  gap: 16px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+
+  .input-nombre {
+    flex: 2;
+    min-width: 200px;
+  }
+
+  .input-categoria {
+    flex: 1;
+    min-width: 150px;
+  }
+
+  mat-form-field {
+    flex: 1;
+  }
+}
+
+.fila-inferior {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+
+  mat-form-field {
+    flex: 1;
+  }
+}
+
+/* Lista de Acumulados */
+.lista-acumulados {
+  margin-top: 24px;
+  padding: 16px;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 12px;
+  border: 1px solid var(--vaixs-border);
+
+  h4 {
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+  }
+}
+
+.items-container {
+  max-height: 200px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.item-fila {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  background: rgba(255, 255, 255, 0.03);
+  border-radius: 8px;
+  border: 1px solid transparent;
+  transition: all 0.2s;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: rgba(0, 230, 118, 0.2);
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+
+    .nombre {
+      font-weight: 700;
+      font-size: 0.9rem;
+      color: white;
+    }
+
+    .detalles {
+      font-size: 0.75rem;
+      color: var(--vaixs-text-muted);
+    }
+  }
+}
+
+.vacio {
+  padding: 20px;
+  text-align: center;
+  color: var(--vaixs-text-muted);
+  font-style: italic;
+}
+
+.acciones {
+  padding: 24px !important;
+  border-top: 1px solid var(--vaixs-border);
+}

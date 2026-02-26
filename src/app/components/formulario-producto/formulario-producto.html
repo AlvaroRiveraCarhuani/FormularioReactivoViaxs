@@ -1,0 +1,111 @@
+<h2 mat-dialog-title>
+  {{ datos ? 'Editar Producto' : '📦 Nuevo Ingreso de Productos' }}
+</h2>
+
+<mat-dialog-content>
+
+  <form [formGroup]="formularioProducto" class="form-container">
+
+    <div class="fila-superior">
+      <mat-form-field appearance="outline" class="input-nombre">
+        <mat-label>Nombre del Producto</mat-label>
+        <input type="text" matInput formControlName="nombre" [matAutocomplete]="auto"
+          placeholder="Nombre (mín. 3 letras)">
+        <mat-error *ngIf="formularioProducto.get('nombre')?.hasError('required')">El nombre es obligatorio</mat-error>
+        <mat-error *ngIf="formularioProducto.get('nombre')?.hasError('minlength')">Mínimo 3 caracteres</mat-error>
+        <mat-autocomplete #auto="matAutocomplete">
+          @for (opcion of sugerencias$ | async; track opcion) {
+          <mat-option [value]="opcion">
+            <mat-icon
+              style="font-size: 16px; width: 16px; height: 16px; margin-right: 8px; vertical-align: middle; color: var(--vaixs-neon);">history</mat-icon>
+            <span>{{ opcion }}</span>
+          </mat-option>
+          }
+        </mat-autocomplete>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="input-categoria">
+        <mat-label>Categoría</mat-label>
+        <mat-select formControlName="categoria">
+          @for (cat of categorias; track cat) {
+          <mat-option [value]="cat">{{ cat }}</mat-option>
+          }
+        </mat-select>
+        <mat-error *ngIf="formularioProducto.get('categoria')?.hasError('required')">Selecciona una
+          categoría</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="fila-inferior">
+      <mat-form-field appearance="outline">
+        <mat-label>Precio (Bs)</mat-label>
+        <input matInput type="number" formControlName="precio" min="1">
+        <span matTextPrefix>Bs&nbsp;</span>
+        <mat-error *ngIf="formularioProducto.get('precio')?.hasError('required')">El precio es obligatorio</mat-error>
+        <mat-error *ngIf="formularioProducto.get('precio')?.hasError('min')">Mínimo Bs 1</mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline">
+        <mat-label>Stock Inicial</mat-label>
+        <input matInput type="number" formControlName="stock" min="0">
+        <mat-error *ngIf="formularioProducto.get('stock')?.hasError('required')">El stock es obligatorio</mat-error>
+        <mat-error *ngIf="formularioProducto.get('stock')?.hasError('min')">Mínimo 0</mat-error>
+      </mat-form-field>
+
+      @if (!datos) {
+      <button mat-fab color="accent" (click)="agregarALista()" [disabled]="formularioProducto.invalid"
+        matTooltip="Agregar a la cola">
+        <mat-icon>arrow_downward</mat-icon>
+      </button>
+      }
+    </div>
+
+  </form>
+
+  @if (!datos) {
+  <div class="lista-acumulados">
+    <h4 class="text-neon" style="margin: 10px 0;">
+      <mat-icon style="vertical-align: middle; font-size: 18px;">playlist_add_check</mat-icon>
+      Productos por registrar ({{ productosAcumulados.length }})
+    </h4>
+
+    <div class="items-container">
+      @for (prod of productosAcumulados; track $index) {
+      <div class="item-fila">
+        <div class="info">
+          <span class="nombre">{{ prod.nombre }}</span>
+          <small class="detalles">{{ prod.categoria }} | {{ prod.stock }} un. | Bs {{ prod.precio }}</small>
+        </div>
+        <button mat-icon-button color="warn" (click)="eliminarDeLista($index)">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      }
+      @if (productosAcumulados.length === 0) {
+      <div class="vacio">
+        <small>La lista está vacía. Agrega productos arriba.</small>
+      </div>
+      }
+    </div>
+  </div>
+  }
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" class="acciones">
+  <button mat-button (click)="cancelar()" style="color: #aaa;">Cancelar</button>
+
+  <button mat-raised-button color="primary"
+    [disabled]="(datos && formularioProducto.invalid) || (!datos && productosAcumulados.length === 0 && formularioProducto.invalid) || (!datos && formularioProducto.dirty && formularioProducto.invalid)"
+    (click)="registrarTodo()">
+
+    @if (datos) {
+    Actualizar Producto
+    } @else {
+    <span>
+      <mat-icon style="vertical-align: middle; font-size: 18px;">save_all</mat-icon>
+      Registrar {{ productosAcumulados.length + (formularioProducto.valid ? 1 : 0) }} Productos
+    </span>
+    }
+  </button>
+</mat-dialog-actions>

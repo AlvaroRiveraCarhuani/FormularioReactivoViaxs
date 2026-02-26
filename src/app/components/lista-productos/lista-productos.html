@@ -1,0 +1,72 @@
+<div class="contenedor-inventario">
+
+  <div class="header-seccion">
+    <h2 class="text-neon">Gestión de Inventario</h2>
+    <button mat-raised-button color="primary" (click)="abrirFormulario()">
+      + Nuevo Producto
+    </button>
+  </div>
+
+  <mat-form-field appearance="outline" class="buscador-full">
+    <mat-label>Buscar por nombre o categoría...</mat-label>
+    <input matInput [formControl]="controlBuscador" placeholder="Ej. Laptop">
+  </mat-form-field>
+
+  @if (productosFiltrados$ | async; as prods) {
+
+  @if (prods.length === 0) {
+  <div class="vacio-container glass">
+    <p>No se encontraron productos.</p>
+    <button mat-raised-button color="accent" (click)="abrirFormulario()">
+      Registrar Primer Producto
+    </button>
+  </div>
+  } @else {
+  <div class="contenedor-tabla mat-elevation-z8 glass">
+    <table mat-table [dataSource]="prods">
+
+      <ng-container matColumnDef="nombre">
+        <th mat-header-cell *matHeaderCellDef> Producto </th>
+        <td mat-cell *matCellDef="let p"> {{ p.nombre || 'Sin nombre' }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="categoria">
+        <th mat-header-cell *matHeaderCellDef> Categoría </th>
+        <td mat-cell *matCellDef="let p">
+          <span class="badge-categoria">{{ p.categoria }}</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="precio">
+        <th mat-header-cell *matHeaderCellDef> Precio </th>
+        <td mat-cell *matCellDef="let p"> Bs {{ p.precio | number:'1.2-2' }} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="stock">
+        <th mat-header-cell *matHeaderCellDef> Stock </th>
+        <td mat-cell *matCellDef="let p">
+          <span [class.stock-critico]="p.stock < 5">{{ p.stock || 0}} un.</span>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="acciones">
+        <th mat-header-cell *matHeaderCellDef style="text-align: center;"> Acciones </th>
+        <td mat-cell *matCellDef="let p" style="text-align: center;">
+          <button mat-icon-button color="primary" (click)="abrirFormulario(p)">
+            <mat-icon>edit</mat-icon>
+          </button>
+          <button mat-icon-button color="warn" (click)="eliminar(p.id)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="columnasMostradas"></tr>
+      <tr mat-row *matRowDef="let row; columns: columnasMostradas;"></tr>
+    </table>
+  </div>
+  }
+  } @else {
+  <p style="color: white;">Cargando inventario...</p>
+  }
+</div>
