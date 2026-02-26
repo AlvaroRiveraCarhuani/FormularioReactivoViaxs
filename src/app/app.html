@@ -1,6 +1,6 @@
 <ng-container *ngIf="authService.isLoggedIn(); else noAuth">
   <mat-sidenav-container class="app-container">
-    <mat-sidenav #sidenav mode="side" opened class="sidebar" *ngIf="authService.isLoggedIn()">
+    <mat-sidenav #sidenav mode="side" [opened]="authService.isLoggedIn()" class="sidebar">
       <app-sidebar></app-sidebar>
     </mat-sidenav>
 

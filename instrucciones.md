@@ -23,19 +23,23 @@ El sistema implementa un control de acceso basado en roles para asegurar la inte
 
 1. **Administrador (admin)**:
    - Acceso total al sistema.
-   - Gestión de inventario (CRUD completo: Crear, Leer, Actualizar, Eliminar).
-   - Visualización del historial de transacciones.
-   - Acceso al catálogo de ventas.
-2. **Usuario (usuario)**:
+   - Gestión de inventario y visualización del historial.
+2. **Vendedor (vendedor)**:
    - Acceso restringido.
-   - Solo puede ver el catálogo de ventas y realizar compras.
-   - No tiene acceso a la gestión de inventario ni al historial global.
+   - Solo puede ver el catálogo de ventas y realizar transacciones.
+   - No tiene acceso a la configuración de inventario.
+
+### Seguridad Simulada (JWT)
+
+- El sistema simula la generación de un **Token JWT** falso tras el login.
+- El token contiene un header, payload (con ID, nombre, rol y expiración) y firma falsa.
+- Este token se almacena en `localStorage` como `vaixs_token`.
+- Los usuarios registrados se guardan en un array persistente en `localStorage`.
 
 ### Reglas de Login Simple
 
 - Si el nombre de usuario contiene la palabra **"admin"**, el sistema le asigna el rol de Administrador.
-- Cualquier otro nombre de usuario recibirá el rol de Usuario regular.
-- Las sesiones se mantienen activas mediante `localStorage`.
+- Cualquier otro nombre de usuario recibirá el rol de Vendedor regular.
 
 ---
 

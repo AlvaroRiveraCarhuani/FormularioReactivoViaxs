@@ -6,10 +6,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { AuthService } from '../../../services/auth.service';
 
 @Component({
-    selector: 'app-sidebar',
-    standalone: true,
-    imports: [CommonModule, RouterModule, MatListModule, MatIconModule],
-    template: `
+  selector: 'app-sidebar',
+  standalone: true,
+  imports: [CommonModule, RouterModule, MatListModule, MatIconModule],
+  template: `
     <mat-nav-list class="sidebar-list">
       <div class="sidebar-header">
         <mat-icon class="app-icon">dashboard</mat-icon>
@@ -34,11 +34,11 @@ import { AuthService } from '../../../services/auth.service';
       <mat-divider></mat-divider>
       
       <div class="sidebar-footer" *ngIf="authService.currentUser() as user">
-        <p>Sesión como: <strong>{{user.role}}</strong></p>
+        <p>Sesión como: <strong [style.color]="user.role === 'admin' ? 'var(--vaixs-neon)' : '#ffab00'">{{user.role}}</strong></p>
       </div>
     </mat-nav-list>
   `,
-    styles: [`
+  styles: [`
     .sidebar-list {
       height: 100%;
       background: var(--vaixs-panel-bg);
@@ -73,5 +73,5 @@ import { AuthService } from '../../../services/auth.service';
   `]
 })
 export class SidebarComponent {
-    constructor(public authService: AuthService) { }
+  constructor(public authService: AuthService) { }
 }

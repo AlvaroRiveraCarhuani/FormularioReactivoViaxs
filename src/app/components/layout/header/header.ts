@@ -16,7 +16,7 @@ import { AuthService } from '../../../services/auth.service';
         <mat-icon>menu</mat-icon>
       </button>
       
-      <span class="logo">Vaixs ERP</span>
+      <span class="logo">Vaix</span>
       
       <span class="spacer"></span>
       

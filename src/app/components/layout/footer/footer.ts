@@ -8,7 +8,7 @@ import { CommonModule } from '@angular/common';
     template: `
     <footer class="footer">
       <div class="footer-content">
-        <p>&copy; 2024 Vaixs ERP - Todos los derechos reservados</p>
+        <p>&copy; 2026 Vaixs ERP - Todos los derechos reservados</p>
         <div class="status">
           <span class="status-dot"></span>
           Sistema en línea (Local)
