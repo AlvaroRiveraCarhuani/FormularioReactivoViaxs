@@ -7,7 +7,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSelectModule } from '@angular/material/select';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { AuthService, UserRole } from '../../../services/auth.service';
 
 @Component({
@@ -22,7 +23,8 @@ import { AuthService, UserRole } from '../../../services/auth.service';
         MatInputModule,
         MatButtonModule,
         MatIconModule,
-        MatSelectModule
+        MatButtonToggleModule,
+        MatSnackBarModule
     ],
     templateUrl: './register.html',
     styleUrls: ['./register.scss']
@@ -30,25 +32,29 @@ import { AuthService, UserRole } from '../../../services/auth.service';
 export class RegisterComponent {
     registerForm: FormGroup;
     hidePassword = true;
-    roles: UserRole[] = ['admin', 'usuario'];
+    roles: UserRole[] = ['admin', 'vendedor'];
 
     constructor(
         private fb: FormBuilder,
         private authService: AuthService,
-        private router: Router
+        private router: Router,
+        private snackBar: MatSnackBar
     ) {
         this.registerForm = this.fb.group({
             username: ['', [Validators.required, Validators.minLength(4)]],
             password: ['', [Validators.required, Validators.minLength(6)]],
-            role: ['usuario', Validators.required]
+            role: ['vendedor', Validators.required]
         });
     }
 
     onSubmit() {
         if (this.registerForm.valid) {
             const { username, password, role } = this.registerForm.value;
-            if (this.authService.register(username, password, role)) {
-                // Redirección manejada en el servicio
+            if (this.authService.register({ username, password, role })) {
+                this.snackBar.open('¡Cuenta creada con éxito! Inicia sesión ahora.', 'Cerrar', { duration: 4000 });
+                this.router.navigate(['/login'], { queryParams: { prefill: username } });
+            } else {
+                this.snackBar.open('Error: El usuario ya existe.', 'Cerrar', { duration: 3000 });
             }
         }
     }

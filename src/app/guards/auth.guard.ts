@@ -9,8 +9,8 @@ export const authGuard: CanActivateFn = (route, state) => {
     if (authService.isLoggedIn()) {
         // Verificar rol si es necesario
         const requiredRole = route.data['role'];
-        if (requiredRole && authService.currentUser()?.role !== requiredRole && authService.currentUser()?.role !== 'admin') {
-            router.navigate(['/inventario']);
+        if (requiredRole && authService.getRole() !== requiredRole && authService.getRole() !== 'admin') {
+            router.navigate(['/ventas']);
             return false;
         }
         return true;

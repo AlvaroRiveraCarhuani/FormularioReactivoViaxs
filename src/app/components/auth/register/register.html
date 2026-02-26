@@ -17,15 +17,17 @@
                         caracteres</mat-error>
                 </mat-form-field>
 
-                <mat-form-field appearance="outline" class="full-width">
-                    <mat-label>Rol</mat-label>
-                    <mat-select formControlName="role">
-                        <mat-option *ngFor="let r of roles" [value]="r">
-                            {{ r | titlecase }}
-                        </mat-option>
-                    </mat-select>
-                    <mat-icon matSuffix>badge</mat-icon>
-                </mat-form-field>
+                <div class="role-selection-container">
+                    <label class="role-label">Selecciona tu Rol</label>
+                    <mat-button-toggle-group formControlName="role" class="role-toggle-group">
+                        <mat-button-toggle value="admin">
+                            <mat-icon>admin_panel_settings</mat-icon> Admin
+                        </mat-button-toggle>
+                        <mat-button-toggle value="vendedor">
+                            <mat-icon>store</mat-icon> Vendedor
+                        </mat-button-toggle>
+                    </mat-button-toggle-group>
+                </div>
 
                 <mat-form-field appearance="outline" class="full-width">
                     <mat-label>Contraseña</mat-label>
